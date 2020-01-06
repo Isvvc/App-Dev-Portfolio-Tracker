@@ -14,11 +14,13 @@ class AppSearchTableViewController: UITableViewController {
     //MARK: Outlets
     
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var addAppsButton: UIBarButtonItem!
     
     //MARK: Properties
     
     let appController = AppController()
     var searchResults: [AppRepresentation] = []
+    var selectedApps: [AppRepresentation] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +28,8 @@ class AppSearchTableViewController: UITableViewController {
         searchBar.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(loadCellImage(_:)), name: .loadAppArtwork, object: nil)
+        
+        updateViews()
     }
     
     @objc private func loadCellImage(_ notification:Notification) {
@@ -58,17 +62,35 @@ class AppSearchTableViewController: UITableViewController {
         
         return cell
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.setSelected(false, animated: true)
+        
+        if cell.accessoryType == .none {
+            selectedApps.append(searchResults[indexPath.row])
+            cell.accessoryType = .checkmark
+        } else {
+            selectedApps.removeAll(where: { $0.bundleID == searchResults[indexPath.row].bundleID })
+            cell.accessoryType = .none
+        }
+        
+        updateViews()
     }
-    */
-
+    
+    //MARK: Private
+    
+    private func updateViews() {
+        addAppsButton.isEnabled = selectedApps.count > 0
+        addAppsButton.title = "Add App\(selectedApps.count > 1 ? "s" : "")"
+    }
+    
+    //MARK: Actions
+    
+    @IBAction func cancel(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
 }
 
 //MARK: Search bar delegate
@@ -77,7 +99,9 @@ extension AppSearchTableViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }
         searchResults = []
+        selectedApps = []
         tableView.reloadData()
+        updateViews()
         appController.search(appName: searchTerm) { apps, error in
             if let error = error {
                 NSLog("Error fetching search results: \(error)")
