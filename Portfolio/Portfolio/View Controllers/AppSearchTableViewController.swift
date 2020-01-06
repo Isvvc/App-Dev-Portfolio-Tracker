@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class AppSearchTableViewController: UITableViewController {
     
@@ -29,6 +30,17 @@ class AppSearchTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
         searchBar.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(loadCellImage(_:)), name: .loadAppArtwork, object: nil)
+    }
+    
+    @objc private func loadCellImage(_ notification:Notification) {
+        let json = JSON(notification.userInfo as Any)
+        guard let index = json["index"].int else { return }
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+        }
     }
 
     // MARK: - Table view data source
@@ -40,7 +52,9 @@ class AppSearchTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AppCell", for: indexPath)
 
-        cell.textLabel?.text = searchResults[indexPath.row].name
+        let app = searchResults[indexPath.row]
+        cell.textLabel?.text = app.name
+        cell.imageView?.image = app.artwork
 
         return cell
     }

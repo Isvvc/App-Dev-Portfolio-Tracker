@@ -6,12 +6,13 @@
 //  Copyright © 2020 Isaac Lyons. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class AppRepresentation {
     let name: String
     let artworkURL: URL
     let ageRating: String
+    var artwork: UIImage?
     
     init(name: String, artworkURL: URL, ageRating: String) {
         self.name = name

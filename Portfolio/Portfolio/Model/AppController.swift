@@ -9,6 +9,10 @@
 import Foundation
 import SwiftyJSON
 
+extension Notification.Name {
+    static var loadAppArtwork = Notification.Name("loadAppArtwork")
+}
+
 class AppController {
     
     let networkingController = NetworkingController()
@@ -39,6 +43,8 @@ class AppController {
                     
                     let app = AppRepresentation(name: name, artworkURL: artworkURL, ageRating: ageRating)
                     
+                    self.fetchArtwork(app: app, index: apps.count)
+                    
                     apps.append(app)
                 }
                 
@@ -46,6 +52,21 @@ class AppController {
             } catch {
                 return completion([], error)
             }
+        }
+    }
+    
+    func fetchArtwork(app: AppRepresentation, index: Int) {
+        networkingController.fetchImage(from: app.artworkURL) { image, error in
+            if let error = error {
+                return NSLog("Error fetching artwork: \(error)")
+            }
+            
+            guard let image = image else {
+                return NSLog("No image data returned from artwork fetch.")
+            }
+            
+            app.artwork = image
+            NotificationCenter.default.post(name: .loadAppArtwork, object: nil, userInfo: ["index": index])
         }
     }
 }

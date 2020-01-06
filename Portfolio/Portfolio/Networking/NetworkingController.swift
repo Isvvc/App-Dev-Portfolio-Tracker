@@ -6,7 +6,7 @@
 //  Copyright © 2020 Isaac Lyons. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class NetworkingController {
     
@@ -28,6 +28,22 @@ class NetworkingController {
         
         URLSession.shared.dataTask(with: requestURL) { data, _, error in
             completion(data, error)
+        }.resume()
+    }
+    
+    func fetchImage(from url: URL, completion: @escaping (UIImage?, Error?) -> Void) {
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            if let error = error {
+                return completion(nil, error)
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned from image fetch request.")
+                return completion(nil, nil)
+            }
+            
+            let image = UIImage(data: data)
+            completion(image, nil)
         }.resume()
     }
     
