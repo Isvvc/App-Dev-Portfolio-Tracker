@@ -38,10 +38,11 @@ class AppController {
                 
                 for appJSON in results {
                     guard let name = appJSON["trackName"].string,
+                        let bundleID = appJSON["bundleId"].string,
                         let artworkURL = appJSON["artworkUrl512"].url,
                         let ageRating = appJSON["contentAdvisoryRating"].string else { continue }
                     
-                    let app = AppRepresentation(name: name, artworkURL: artworkURL, ageRating: ageRating)
+                    let app = AppRepresentation(name: name, bundleID: bundleID, artworkURL: artworkURL, ageRating: ageRating)
                     
                     self.fetchArtwork(app: app, index: apps.count)
                     
