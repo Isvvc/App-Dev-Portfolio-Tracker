@@ -1,0 +1,72 @@
+//
+//  AppController.swift
+//  Portfolio
+//
+//  Created by Isaac Lyons on 1/6/20.
+//  Copyright © 2020 Isaac Lyons. All rights reserved.
+//
+
+import Foundation
+import SwiftyJSON
+
+extension Notification.Name {
+    static var loadAppArtwork = Notification.Name("loadAppArtwork")
+}
+
+class AppController {
+    
+    let networkingController = NetworkingController()
+    
+    func search(appName: String, completion: @escaping ([AppRepresentation], Error?) -> Void) {
+        networkingController.search(appName: appName) { data, error in
+            if let error = error {
+                return completion([], error)
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned from search")
+                return completion([], nil)
+            }
+            
+            do {
+                let json = try JSON(data: data)
+                guard let results = json["results"].array else {
+                    return completion([], json["results"].error)
+                }
+                
+                var apps: [AppRepresentation] = []
+                
+                for appJSON in results {
+                    guard let name = appJSON["trackName"].string,
+                        let artworkURL = appJSON["artworkUrl512"].url,
+                        let ageRating = appJSON["contentAdvisoryRating"].string else { continue }
+                    
+                    let app = AppRepresentation(name: name, artworkURL: artworkURL, ageRating: ageRating)
+                    
+                    self.fetchArtwork(app: app, index: apps.count)
+                    
+                    apps.append(app)
+                }
+                
+                return completion(apps, nil)
+            } catch {
+                return completion([], error)
+            }
+        }
+    }
+    
+    func fetchArtwork(app: AppRepresentation, index: Int) {
+        networkingController.fetchImage(from: app.artworkURL) { image, error in
+            if let error = error {
+                return NSLog("Error fetching artwork: \(error)")
+            }
+            
+            guard let image = image else {
+                return NSLog("No image data returned from artwork fetch.")
+            }
+            
+            app.artwork = image
+            NotificationCenter.default.post(name: .loadAppArtwork, object: nil, userInfo: ["index": index])
+        }
+    }
+}
