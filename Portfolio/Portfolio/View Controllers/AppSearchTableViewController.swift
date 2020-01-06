@@ -16,7 +16,7 @@ class AppSearchTableViewController: UITableViewController {
     
     //MARK: Properties
     
-    let networkingController = NetworkingController()
+    let appController = AppController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,11 +104,8 @@ class AppSearchTableViewController: UITableViewController {
 extension AppSearchTableViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchTerm = searchBar.text else { return }
-        networkingController.search(appName: searchTerm) { data, error in
-            guard let data = data else { return }
-            
-            let json = try? JSONSerialization.jsonObject(with: data, options: [])
-            print(json)
+        appController.search(appName: searchTerm) { apps, error in
+            print(apps.map({ $0.name }))
         }
     }
 }
