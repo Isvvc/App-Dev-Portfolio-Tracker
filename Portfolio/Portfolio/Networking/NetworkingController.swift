@@ -24,8 +24,6 @@ class NetworkingController {
             return completion(nil, nil)
         }
         
-        print(requestURL)
-        
         URLSession.shared.dataTask(with: requestURL) { data, _, error in
             completion(data, error)
         }.resume()
