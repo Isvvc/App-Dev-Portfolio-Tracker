@@ -50,6 +50,9 @@ class AppSearchTableViewController: UITableViewController {
         cell.textLabel?.text = app.name
         cell.imageView?.image = app.artwork
         
+        // App icons of size 512x512 have corner radius.
+        // This value is based on the image height being 44.333
+        // TODO: calculate the corner radius based on size of the imageView
         cell.imageView?.layer.cornerRadius = 7
         cell.imageView?.layer.masksToBounds = true
         
