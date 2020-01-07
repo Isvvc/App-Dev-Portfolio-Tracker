@@ -126,13 +126,6 @@ class AppController {
         }
     }
 
-    private func retrieveImage(forKey key: String) -> UIImage? {
-        guard let filePath = filePath(forKey: key),
-            let fileData = FileManager.default.contents(atPath: filePath.path),
-            let image = UIImage(data: fileData) else { return nil }
-        return image
-    }
-
     private func deleteImage(forKey key: String) {
         guard let filePath = filePath(forKey: key) else { return }
         do {
@@ -140,5 +133,12 @@ class AppController {
         } catch {
             NSLog("Error deleting image: \(error)")
         }
+    }
+
+    func retrieveImage(forKey key: String) -> UIImage? {
+        guard let filePath = filePath(forKey: key),
+            let fileData = FileManager.default.contents(atPath: filePath.path),
+            let image = UIImage(data: fileData) else { return nil }
+        return image
     }
 }

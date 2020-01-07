@@ -58,6 +58,12 @@ class AppsTableViewController: UITableViewController {
         let app = fetchedResultsController.object(at: indexPath)
 
         cell.textLabel?.text = app.name
+        if let bundleID = app.id {
+            cell.imageView?.image = appController.retrieveImage(forKey: bundleID)
+            // TODO: calculate the corner radius based on size of the imageView
+            cell.imageView?.layer.cornerRadius = 10
+            cell.imageView?.layer.masksToBounds = true
+        }
 
         return cell
     }
