@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		596705CB23C50F9900304CB8 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596705CA23C50F9900304CB8 /* CoreDataStack.swift */; };
+		596705CD23C50FF800304CB8 /* Portfolio+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596705CC23C50FF800304CB8 /* Portfolio+Convenience.swift */; };
 		59F49D4923C3B43600ED5997 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F49D4823C3B43600ED5997 /* AppDelegate.swift */; };
 		59F49D4B23C3B43600ED5997 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F49D4A23C3B43600ED5997 /* SceneDelegate.swift */; };
 		59F49D5023C3B43600ED5997 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 59F49D4E23C3B43600ED5997 /* Main.storyboard */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		596705CA23C50F9900304CB8 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		596705CC23C50FF800304CB8 /* Portfolio+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Portfolio+Convenience.swift"; sourceTree = "<group>"; };
 		59F49D4523C3B43600ED5997 /* Portfolio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Portfolio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59F49D4823C3B43600ED5997 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		59F49D4A23C3B43600ED5997 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -102,6 +106,8 @@
 			isa = PBXGroup;
 			children = (
 				59F49D5123C3B43600ED5997 /* Portfolio.xcdatamodeld */,
+				596705CC23C50FF800304CB8 /* Portfolio+Convenience.swift */,
+				596705CA23C50F9900304CB8 /* CoreDataStack.swift */,
 				59F49D6923C3C28E00ED5997 /* AppRepresentation.swift */,
 				59F49D6B23C3C31F00ED5997 /* AppController.swift */,
 			);
@@ -209,6 +215,8 @@
 				59F49D5323C3B43600ED5997 /* Portfolio.xcdatamodeld in Sources */,
 				59F49D4923C3B43600ED5997 /* AppDelegate.swift in Sources */,
 				59F49D6A23C3C28E00ED5997 /* AppRepresentation.swift in Sources */,
+				596705CB23C50F9900304CB8 /* CoreDataStack.swift in Sources */,
+				596705CD23C50FF800304CB8 /* Portfolio+Convenience.swift in Sources */,
 				59F49D7423C3F1E200ED5997 /* AppsTableViewController.swift in Sources */,
 				59F49D4B23C3B43600ED5997 /* SceneDelegate.swift in Sources */,
 				59F49D6123C3B66E00ED5997 /* AppSearchTableViewController.swift in Sources */,
