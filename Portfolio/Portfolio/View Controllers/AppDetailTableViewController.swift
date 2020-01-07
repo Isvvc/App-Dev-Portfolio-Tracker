@@ -86,6 +86,31 @@ class AppDetailTableViewController: UITableViewController {
         UIApplication.shared.open(appStoreURL)
     }
 
+    @objc private func updateAppStoreLink() {
+        print("Update App Store link.")
+
+        let alert = UIAlertController(title: "Update Link", message: nil, preferredStyle: .alert)
+
+        var urlTextField: UITextField?
+        alert.addTextField { textField in
+            textField.placeholder = "App Store URL"
+            urlTextField = textField
+        }
+
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let done = UIAlertAction(title: "Done", style: .default) { _ in
+            guard let urlString = urlTextField?.text,
+                let url = URL(string: urlString)else { return }
+            print(url)
+            // TODO: Set the URL
+        }
+
+        alert.addAction(cancel)
+        alert.addAction(done)
+
+        present(alert, animated: true, completion: nil)
+    }
+
     private func loadAppInfo() {
         guard let app = app else { return }
 
@@ -97,8 +122,11 @@ class AppDetailTableViewController: UITableViewController {
 
         nameTextView?.text = app.name
         ageRatingLabel?.text = app.ageRating
-        appStoreButton?.addTarget(self, action: #selector(openAppStore), for: .touchUpInside)
         descriptionTextView?.text = app.appDescription
+
+        appStoreButton?.addTarget(self, action: #selector(openAppStore), for: .touchUpInside)
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(updateAppStoreLink))
+        appStoreButton?.addGestureRecognizer(longPress)
     }
 
 }
