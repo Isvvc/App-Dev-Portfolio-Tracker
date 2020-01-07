@@ -82,6 +82,22 @@ class AppController {
         }
     }
 
+    func fetchAndStoreArtwork(app: App) {
+        guard let artworkURL = app.artworkURL,
+            let bundleID = app.id else { return }
+        networkingController.fetchImage(from: artworkURL) { image, error in
+            if let error = error {
+                return NSLog("Error fetching artwork: \(error)")
+            }
+
+            guard let image = image else {
+                return NSLog("No image data returned from artwork fetch.")
+            }
+
+            self.store(image, forKey: bundleID)
+        }
+    }
+
     // MARK: Core Data
 
     func create(apps representations: [AppRepresentation], context: NSManagedObjectContext) throws {
@@ -98,6 +114,32 @@ class AppController {
         }
 
         CoreDataStack.shared.save(context: context)
+    }
+
+    func create(appNamed name: String,
+                ageRating: String? = nil,
+                description: String,
+                appStoreURL: URL? = nil,
+                artworkURL: URL? = nil,
+                bundleID: String,
+                userRatingCount: Int16? = nil,
+                artwork: UIImage? = nil,
+                context: NSManagedObjectContext) {
+        let app = App(ageRating: ageRating,
+            appDescription: description,
+            appStoreURL: appStoreURL,
+            artworkURL: artworkURL,
+            bundleID: bundleID,
+            name: name,
+            userRatingCount: userRatingCount,
+            context: context)
+        CoreDataStack.shared.save(context: context)
+
+        if let artwork = artwork {
+            store(artwork, forKey: bundleID)
+        } else if app.artworkURL != nil {
+            fetchAndStoreArtwork(app: app)
+        }
     }
 
     func delete(app: App, context: NSManagedObjectContext) {
