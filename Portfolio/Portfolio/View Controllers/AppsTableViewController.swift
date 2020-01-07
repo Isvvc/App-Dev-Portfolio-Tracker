@@ -76,7 +76,25 @@ class AppsTableViewController: UITableViewController {
                             forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let app = fetchedResultsController.object(at: indexPath)
-            appController.delete(app: app, context: CoreDataStack.shared.mainContext)
+
+            var alertBody = "Are you sure you want to remove "
+            if let appName = app.name {
+                alertBody += "the app \(appName)?"
+            } else {
+                alertBody += "this app?"
+            }
+            alertBody += " Data saved in Portfolio will be lost."
+
+            let alert = UIAlertController(title: "Confirm", message: alertBody, preferredStyle: .alert)
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            let delete = UIAlertAction(title: "Delete", style: .destructive) { _ in
+                self.appController.delete(app: app, context: CoreDataStack.shared.mainContext)
+            }
+
+            alert.addAction(cancel)
+            alert.addAction(delete)
+
+            present(alert, animated: true, completion: nil)
         }
     }
 
