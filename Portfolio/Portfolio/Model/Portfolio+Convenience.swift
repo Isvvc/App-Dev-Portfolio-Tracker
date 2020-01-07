@@ -25,4 +25,15 @@ extension App {
         self.appStoreURL = appStoreURL
         self.name = name
     }
+
+    @discardableResult convenience init(representation: AppRepresentation, context: NSManagedObjectContext) {
+        self.init(context: context)
+
+        self.id = representation.bundleID
+        self.ageRating = representation.ageRating
+        self.appDescription = representation.appDescription
+        self.artworkURL = representation.artworkURL
+        self.appStoreURL = representation.appStoreURL
+        self.name = representation.name
+    }
 }
