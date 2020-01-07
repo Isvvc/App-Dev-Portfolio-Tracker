@@ -45,9 +45,15 @@ class AppSearchTableViewController: UITableViewController {
     @objc private func loadCellImage(_ notification: Notification) {
         let json = JSON(notification.userInfo as Any)
         guard let index = json["index"].int else { return }
+        let indexPath = IndexPath(row: index, section: 0)
 
         DispatchQueue.main.async {
-            self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+            // If you selected an app but the image hadn't loaded yet, select it now that it has
+            if self.tableView.indexPathForSelectedRow == indexPath {
+                self.selectApp(at: indexPath)
+            }
+
+            self.tableView.reloadRows(at: [indexPath], with: .automatic)
         }
     }
 
@@ -76,18 +82,9 @@ class AppSearchTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) else { return }
-        cell.setSelected(false, animated: true)
-
-        if cell.accessoryType == .none {
-            selectedApps.append(searchResults[indexPath.row])
-            cell.accessoryType = .checkmark
-        } else {
-            selectedApps.removeAll(where: { $0.bundleID == searchResults[indexPath.row].bundleID })
-            cell.accessoryType = .none
-        }
-
-        updateViews()
+        let app = searchResults[indexPath.row]
+        guard app.artwork != nil else { return } // Wait until the artwork loads so it can save it
+        selectApp(at: indexPath)
     }
 
     // MARK: Private
@@ -95,6 +92,23 @@ class AppSearchTableViewController: UITableViewController {
     private func updateViews() {
         addAppsButton.isEnabled = selectedApps.count > 0
         addAppsButton.title = "Add App\(selectedApps.count > 1 ? "s" : "")"
+    }
+
+    private func selectApp(at indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.setSelected(false, animated: true)
+
+        let app = searchResults[indexPath.row]
+
+        if cell.accessoryType == .none {
+            selectedApps.append(searchResults[indexPath.row])
+            cell.accessoryType = .checkmark
+        } else {
+            selectedApps.removeAll(where: { $0.bundleID == app.bundleID })
+            cell.accessoryType = .none
+        }
+
+        updateViews()
     }
 
     // MARK: Actions
