@@ -24,6 +24,14 @@ class AppDetailTableViewController: UITableViewController {
         super.viewDidLoad()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // This is to make sure the text views have their height automatically adjusted
+        tableView.beginUpdates()
+        tableView.endUpdates()
+    }
+
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -58,12 +66,14 @@ class AppDetailTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
 
         if let cell = cell as? TitleTableViewCell {
+            cell.textView.delegate = self
             nameTextView = cell.textView
             artworkImageView = cell.artworkImageView
         } else if let cell = cell as? LinkTableViewCell {
             ageRatingLabel = cell.ageRating
             appStoreButton = cell.appStoreButton
         } else if let cell = cell as? TextViewTableViewCell {
+            cell.textView.delegate = self
             descriptionTextView = cell.textView
         }
 
@@ -76,6 +86,8 @@ class AppDetailTableViewController: UITableViewController {
         if let lastVisibleIndexPath = tableView.indexPathsForVisibleRows?.last,
             indexPath == lastVisibleIndexPath {
             loadAppInfo()
+            tableView.beginUpdates()
+            tableView.endUpdates()
         }
     }
 
@@ -129,4 +141,13 @@ class AppDetailTableViewController: UITableViewController {
         appStoreButton?.addGestureRecognizer(longPress)
     }
 
+}
+
+// MARK: Text view delegate
+
+extension AppDetailTableViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        tableView.beginUpdates()
+        tableView.endUpdates()
+    }
 }
