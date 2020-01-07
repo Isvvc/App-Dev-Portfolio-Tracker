@@ -14,7 +14,11 @@ class AppDetailTableViewController: UITableViewController {
     var appController: AppController?
     var app: App?
 
-    var imageView: UIImageView?
+    var nameTextView: UITextView?
+    var artworkImageView: UIImageView?
+    var ageRatingLabel: UILabel?
+    var appStoreButton: UIButton?
+    var descriptionTextView: UITextView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,23 +58,25 @@ class AppDetailTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
 
         if let cell = cell as? TitleTableViewCell {
-            if let appName = app?.name {
-                cell.textView.text = appName
-            }
-
-            if let bundleID = app?.id {
-                cell.artworkImageView.image = appController?.retrieveImage(forKey: bundleID)
-                cell.artworkImageView.layer.cornerRadius = 20
-                cell.artworkImageView.layer.masksToBounds = true
-            }
+            nameTextView = cell.textView
+            artworkImageView = cell.artworkImageView
         } else if let cell = cell as? LinkTableViewCell {
-            cell.ageRating.text = app?.ageRating
-            cell.appStoreButton.addTarget(self, action: #selector(openAppStore), for: .touchUpInside)
+            ageRatingLabel = cell.ageRating
+            appStoreButton = cell.appStoreButton
         } else if let cell = cell as? TextViewTableViewCell {
-            cell.textView.text = app?.appDescription
+            descriptionTextView = cell.textView
         }
 
         return cell
+    }
+
+    override func tableView(_ tableView: UITableView,
+                            willDisplay cell: UITableViewCell,
+                            forRowAt indexPath: IndexPath) {
+        if let lastVisibleIndexPath = tableView.indexPathsForVisibleRows?.last,
+            indexPath == lastVisibleIndexPath {
+            loadAppInfo()
+        }
     }
 
     // MARK: Private
@@ -78,6 +84,21 @@ class AppDetailTableViewController: UITableViewController {
     @objc private func openAppStore() {
         guard let appStoreURL = app?.appStoreURL else { return }
         UIApplication.shared.open(appStoreURL)
+    }
+
+    private func loadAppInfo() {
+        guard let app = app else { return }
+
+        if let bundleID = app.id {
+            artworkImageView?.image = appController?.retrieveImage(forKey: bundleID)
+            artworkImageView?.layer.cornerRadius = 20
+            artworkImageView?.layer.masksToBounds = true
+        }
+
+        nameTextView?.text = app.name
+        ageRatingLabel?.text = app.ageRating
+        appStoreButton?.addTarget(self, action: #selector(openAppStore), for: .touchUpInside)
+        descriptionTextView?.text = app.appDescription
     }
 
 }
