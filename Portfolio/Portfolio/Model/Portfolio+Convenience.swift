@@ -10,11 +10,12 @@ import CoreData
 
 extension App {
     @discardableResult convenience init(ageRating: String?,
-                                        appDescription: String?,
+                                        appDescription: String,
                                         appStoreURL: URL?,
                                         artworkURL: URL?,
                                         bundleID: String,
                                         name: String,
+                                        userRatingCount: Int16?,
                                         context: NSManagedObjectContext) {
         self.init(context: context)
 
@@ -24,6 +25,7 @@ extension App {
         self.artworkURL = artworkURL
         self.appStoreURL = appStoreURL
         self.name = name
+        self.userRatingCount = userRatingCount ?? 0
     }
 
     @discardableResult convenience init(representation: AppRepresentation, context: NSManagedObjectContext) {
@@ -35,5 +37,6 @@ extension App {
         self.artworkURL = representation.artworkURL
         self.appStoreURL = representation.appStoreURL
         self.name = representation.name
+        self.userRatingCount = representation.userRatingCount ?? 0
     }
 }

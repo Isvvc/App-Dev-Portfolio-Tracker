@@ -19,6 +19,7 @@ class AppDetailTableViewController: UITableViewController {
     var ageRatingLabel: UILabel?
     var appStoreButton: UIButton?
     var descriptionTextView: UITextView?
+    var ratingsLabel: UILabel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,6 +73,7 @@ class AppDetailTableViewController: UITableViewController {
         } else if let cell = cell as? LinkTableViewCell {
             ageRatingLabel = cell.ageRating
             appStoreButton = cell.appStoreButton
+            ratingsLabel = cell.ratingsLabel
         } else if let cell = cell as? TextViewTableViewCell {
             cell.textView.delegate = self
             descriptionTextView = cell.textView
@@ -130,6 +132,12 @@ class AppDetailTableViewController: UITableViewController {
             artworkImageView?.image = appController?.retrieveImage(forKey: bundleID)
             artworkImageView?.layer.cornerRadius = 20
             artworkImageView?.layer.masksToBounds = true
+        }
+        
+        if app.userRatingCount > 0 {
+            ratingsLabel?.text = "\(app.userRatingCount) Ratings"
+        } else {
+            ratingsLabel?.text = nil
         }
 
         nameTextView?.text = app.name

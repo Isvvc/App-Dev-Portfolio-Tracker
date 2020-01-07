@@ -11,19 +11,27 @@ import UIKit
 class AppRepresentation {
     let name: String
     let bundleID: String
-    let artworkURL: URL
-    let ageRating: String
+    let artworkURL: URL?
+    let ageRating: String?
     let appDescription: String
-    let appStoreURL: URL
+    let appStoreURL: URL?
+    let userRatingCount: Int16?
 
     var artwork: UIImage?
 
-    init(name: String, bundleID: String, artworkURL: URL, ageRating: String, description: String, appStoreURL: URL) {
+    init(name: String,
+         bundleID: String,
+         artworkURL: URL?,
+         ageRating: String?,
+         description: String,
+         appStoreURL: URL?,
+         userRatingCount: Int16?) {
         self.name = name
         self.bundleID = bundleID
         self.artworkURL = artworkURL
         self.ageRating = ageRating
         self.appDescription = description
         self.appStoreURL = appStoreURL
+        self.userRatingCount = userRatingCount
     }
 }

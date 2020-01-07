@@ -198,18 +198,28 @@
                                             <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="# Ratings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bHB-au-IZE">
+                                            <rect key="frame" x="20" y="13" width="65" height="18"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="Q3K-dR-8Yd" firstAttribute="centerY" secondItem="cdz-64-TbP" secondAttribute="centerY" id="3KL-BB-fgP"/>
                                         <constraint firstItem="M61-uS-OII" firstAttribute="centerX" secondItem="cdz-64-TbP" secondAttribute="centerX" id="40b-bY-DXn"/>
+                                        <constraint firstItem="bHB-au-IZE" firstAttribute="leading" secondItem="cdz-64-TbP" secondAttribute="leadingMargin" id="E7p-lb-kja"/>
                                         <constraint firstItem="Q3K-dR-8Yd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="M61-uS-OII" secondAttribute="trailing" constant="8" id="NyE-bE-KPG"/>
+                                        <constraint firstItem="M61-uS-OII" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="bHB-au-IZE" secondAttribute="trailing" constant="8" id="X9H-L7-s5Q"/>
                                         <constraint firstItem="Q3K-dR-8Yd" firstAttribute="trailing" secondItem="cdz-64-TbP" secondAttribute="trailingMargin" id="ajO-Sh-7p5"/>
+                                        <constraint firstItem="bHB-au-IZE" firstAttribute="centerY" secondItem="cdz-64-TbP" secondAttribute="centerY" id="cfx-Pt-gcj"/>
                                         <constraint firstItem="M61-uS-OII" firstAttribute="centerY" secondItem="cdz-64-TbP" secondAttribute="centerY" id="yjb-yx-OM7"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="ageRating" destination="Q3K-dR-8Yd" id="HMe-mE-ybR"/>
                                     <outlet property="appStoreButton" destination="M61-uS-OII" id="4eu-a4-dcP"/>
+                                    <outlet property="ratingsLabel" destination="bHB-au-IZE" id="6p6-a7-XAZ"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TextViewCell" id="zDO-pA-k6U" customClass="TextViewTableViewCell" customModule="Portfolio" customModuleProvider="target">

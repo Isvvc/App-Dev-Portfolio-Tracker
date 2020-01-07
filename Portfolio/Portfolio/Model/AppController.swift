@@ -43,14 +43,16 @@ class AppController {
                         let artworkURL = appJSON["artworkUrl512"].url,
                         let ageRating = appJSON["contentAdvisoryRating"].string,
                         let description = appJSON["description"].string,
-                        let appStoreURL = appJSON["trackViewUrl"].url else { continue }
+                        let appStoreURL = appJSON["trackViewUrl"].url,
+                        let userRatingCount = appJSON["userRatingCount"].int16 else { continue }
 
                     let app = AppRepresentation(name: name,
                                                 bundleID: bundleID,
                                                 artworkURL: artworkURL,
                                                 ageRating: ageRating,
                                                 description: description,
-                                                appStoreURL: appStoreURL)
+                                                appStoreURL: appStoreURL,
+                                                userRatingCount: userRatingCount)
 
                     self.fetchArtwork(app: app, index: apps.count)
 
@@ -65,7 +67,8 @@ class AppController {
     }
 
     func fetchArtwork(app: AppRepresentation, index: Int) {
-        networkingController.fetchImage(from: app.artworkURL) { image, error in
+        guard let artworkURL = app.artworkURL else { return }
+        networkingController.fetchImage(from: artworkURL) { image, error in
             if let error = error {
                 return NSLog("Error fetching artwork: \(error)")
             }
