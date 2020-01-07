@@ -8,6 +8,7 @@
 
 import CoreData
 import SwiftyJSON
+import UIKit
 
 extension Notification.Name {
     static var loadAppArtwork = Notification.Name("loadAppArtwork")
@@ -78,12 +79,17 @@ class AppController {
         }
     }
 
+    // MARK: Core Data
+
     func create(apps representations: [AppRepresentation], context: NSManagedObjectContext) throws {
         let fetchRequest: NSFetchRequest<App> = App.fetchRequest()
         let existingApps = try context.fetch(fetchRequest)
 
         for representation in representations {
             if !existingApps.contains(where: { $0.id == representation.bundleID }) {
+                if let artwork = representation.artwork {
+                    store(artwork, forKey: representation.bundleID)
+                }
                 App(representation: representation, context: context)
             }
         }
@@ -92,7 +98,47 @@ class AppController {
     }
 
     func delete(app: App, context: NSManagedObjectContext) {
+        if let bundleID = app.id {
+            deleteImage(forKey: bundleID)
+        }
         context.delete(app)
         CoreDataStack.shared.save(context: context)
+    }
+
+    // MARK: Local Storage
+
+    private func filePath(forKey key: String) -> URL? {
+        let fileManager = FileManager.default
+        guard let documentURL = fileManager
+            .urls(for: .documentDirectory,
+                  in: FileManager.SearchPathDomainMask.userDomainMask).first else { return nil }
+
+        return documentURL.appendingPathComponent(key + ".png")
+    }
+
+    private func store(_ image: UIImage, forKey key: String) {
+        guard let png = image.pngData(),
+            let filePath = filePath(forKey: key) else { return }
+        do {
+            try png.write(to: filePath, options: .atomic)
+        } catch {
+            NSLog("Error saving image: \(error)")
+        }
+    }
+
+    private func retrieveImage(forKey key: String) -> UIImage? {
+        guard let filePath = filePath(forKey: key),
+            let fileData = FileManager.default.contents(atPath: filePath.path),
+            let image = UIImage(data: fileData) else { return nil }
+        return image
+    }
+
+    private func deleteImage(forKey key: String) {
+        guard let filePath = filePath(forKey: key) else { return }
+        do {
+            try FileManager.default.removeItem(at: filePath)
+        } catch {
+            NSLog("Error deleting image: \(error)")
+        }
     }
 }
