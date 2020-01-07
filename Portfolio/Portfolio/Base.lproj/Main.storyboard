@@ -257,7 +257,13 @@
                             <outlet property="delegate" destination="DLd-lu-mQN" id="eA8-iV-s61"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="App Name" id="mkO-XH-R0c"/>
+                    <navigationItem key="navigationItem" title="App Name" id="mkO-XH-R0c">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="DWj-iE-246">
+                            <connections>
+                                <action selector="save:" destination="DLd-lu-mQN" id="imB-CL-aCU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lx5-oL-ZhZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -12,7 +12,15 @@ class AppDetailTableViewController: UITableViewController {
 
     // MARK: Properties
     var appController: AppController?
-    var app: App?
+    var app: App? {
+        didSet {
+            appStoreURL = app?.appStoreURL
+            ratings = app?.userRatingCount
+        }
+    }
+
+    var appStoreURL: URL?
+    var ratings: Int16?
 
     var nameTextView: UITextView?
     var artworkImageView: UIImageView?
@@ -115,8 +123,7 @@ class AppDetailTableViewController: UITableViewController {
         let done = UIAlertAction(title: "Done", style: .default) { _ in
             guard let urlString = urlTextField?.text,
                 let url = URL(string: urlString)else { return }
-            print(url)
-            // TODO: Set the URL
+            self.appStoreURL = url
         }
 
         alert.addAction(cancel)
@@ -133,7 +140,7 @@ class AppDetailTableViewController: UITableViewController {
             artworkImageView?.layer.cornerRadius = 20
             artworkImageView?.layer.masksToBounds = true
         }
-        
+
         if app.userRatingCount > 0 {
             ratingsLabel?.text = "\(app.userRatingCount) Ratings"
         } else {
@@ -147,6 +154,16 @@ class AppDetailTableViewController: UITableViewController {
         appStoreButton?.addTarget(self, action: #selector(openAppStore), for: .touchUpInside)
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(updateAppStoreLink))
         appStoreButton?.addGestureRecognizer(longPress)
+    }
+
+    // MARK: Actions
+
+    @IBAction func save(_ sender: Any) {
+        if let app = app {
+            // TODO: Update app
+        } else {
+            // TODO: Save new app
+        }
     }
 
 }
