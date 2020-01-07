@@ -22,6 +22,13 @@ class AppSearchTableViewController: UITableViewController {
     var searchResults: [AppRepresentation] = []
     var selectedApps: [AppRepresentation] = []
     
+    var callbacks: [( ([AppRepresentation]) -> Void )] = []
+    private func choose(apps: [AppRepresentation]) {
+        for callback in callbacks {
+            callback(apps)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -91,6 +98,10 @@ class AppSearchTableViewController: UITableViewController {
     
     @IBAction func cancel(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func addApps(_ sender: Any) {
+        choose(apps: selectedApps)
     }
     
 }

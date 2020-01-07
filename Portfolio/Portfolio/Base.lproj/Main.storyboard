@@ -49,7 +49,11 @@
                                 <action selector="cancel:" destination="yuo-Hs-Pvm" id="sk6-Pn-GJ7"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Add Apps" id="1eV-9x-cbL"/>
+                        <barButtonItem key="rightBarButtonItem" title="Add Apps" id="1eV-9x-cbL">
+                            <connections>
+                                <action selector="addApps:" destination="yuo-Hs-Pvm" id="RYj-FU-2fH"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="addAppsButton" destination="1eV-9x-cbL" id="apJ-S9-rct"/>
