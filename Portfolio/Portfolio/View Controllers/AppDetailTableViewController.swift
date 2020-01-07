@@ -10,6 +10,12 @@ import UIKit
 
 class AppDetailTableViewController: UITableViewController {
 
+    // MARK: Properties
+    var appController: AppController?
+    var app: App?
+
+    var imageView: UIImageView?
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -47,9 +53,31 @@ class AppDetailTableViewController: UITableViewController {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
 
-        // Configure the cell...
+        if let cell = cell as? TitleTableViewCell {
+            if let appName = app?.name {
+                cell.textView.text = appName
+            }
+
+            if let bundleID = app?.id {
+                cell.artworkImageView.image = appController?.retrieveImage(forKey: bundleID)
+                cell.artworkImageView.layer.cornerRadius = 20
+                cell.artworkImageView.layer.masksToBounds = true
+            }
+        } else if let cell = cell as? LinkTableViewCell {
+            cell.ageRating.text = app?.ageRating
+            cell.appStoreButton.addTarget(self, action: #selector(openAppStore), for: .touchUpInside)
+        } else if let cell = cell as? TextViewTableViewCell {
+            cell.textView.text = app?.appDescription
+        }
 
         return cell
+    }
+
+    // MARK: Private
+
+    @objc private func openAppStore() {
+        guard let appStoreURL = app?.appStoreURL else { return }
+        UIApplication.shared.open(appStoreURL)
     }
 
 }

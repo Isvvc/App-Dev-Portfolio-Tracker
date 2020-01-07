@@ -137,6 +137,11 @@ class AppsTableViewController: UITableViewController {
                     NSLog("Unable to fetch existing apps: \(error)")
                 }
             }
+        } else if let appDetailVC = segue.destination as? AppDetailTableViewController {
+            appDetailVC.appController = appController
+            if let indexPath = tableView.indexPathForSelectedRow {
+                appDetailVC.app = fetchedResultsController.object(at: indexPath)
+            }
         }
     }
 

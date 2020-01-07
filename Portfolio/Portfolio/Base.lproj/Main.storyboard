@@ -15,7 +15,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search the App Store" id="oRV-DY-By5">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                            <rect key="frame" x="0.0" y="0.0" width="228" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
@@ -145,7 +145,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TitleCell" id="0m8-DG-5D6">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TitleCell" id="0m8-DG-5D6" customClass="TitleTableViewCell" customModule="Portfolio" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="55.5" width="414" height="136.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0m8-DG-5D6" id="Hjr-CS-kQR">
@@ -176,8 +176,12 @@
                                         <constraint firstAttribute="bottom" secondItem="BaY-YL-TYg" secondAttribute="bottom" id="zH9-Ig-kZU"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="artworkImageView" destination="kFn-5k-nTB" id="qzA-Me-vHu"/>
+                                    <outlet property="textView" destination="BaY-YL-TYg" id="bFP-hr-dXi"/>
+                                </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LinkCell" id="ajg-4u-S92">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LinkCell" id="ajg-4u-S92" customClass="LinkTableViewCell" customModule="Portfolio" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="192" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ajg-4u-S92" id="cdz-64-TbP">
@@ -203,8 +207,12 @@
                                         <constraint firstItem="M61-uS-OII" firstAttribute="centerY" secondItem="cdz-64-TbP" secondAttribute="centerY" id="yjb-yx-OM7"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="ageRating" destination="Q3K-dR-8Yd" id="HMe-mE-ybR"/>
+                                    <outlet property="appStoreButton" destination="M61-uS-OII" id="4eu-a4-dcP"/>
+                                </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TextViewCell" id="zDO-pA-k6U">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TextViewCell" id="zDO-pA-k6U" customClass="TextViewTableViewCell" customModule="Portfolio" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="235.5" width="414" height="206"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zDO-pA-k6U" id="sf2-gn-anu">
@@ -229,6 +237,9 @@
                                         <constraint firstAttribute="trailingMargin" secondItem="bN3-9z-p1Z" secondAttribute="trailing" id="odX-DA-kUm"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="textView" destination="bN3-9z-p1Z" id="7I1-1i-ej3"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
