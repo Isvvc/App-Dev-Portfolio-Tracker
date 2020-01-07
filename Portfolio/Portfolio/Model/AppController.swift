@@ -90,4 +90,9 @@ class AppController {
 
         CoreDataStack.shared.save(context: context)
     }
+
+    func delete(app: App, context: NSManagedObjectContext) {
+        context.delete(app)
+        CoreDataStack.shared.save(context: context)
+    }
 }
