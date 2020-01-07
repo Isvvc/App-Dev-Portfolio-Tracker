@@ -60,6 +60,8 @@ class AppSearchTableViewController: UITableViewController {
         cell.imageView?.layer.cornerRadius = 7
         cell.imageView?.layer.masksToBounds = true
         
+        cell.accessoryType = selectedApps.contains(where: { $0.bundleID == app.bundleID }) ? .checkmark : .none
+        
         return cell
     }
     
