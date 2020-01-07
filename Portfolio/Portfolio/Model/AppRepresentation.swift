@@ -13,9 +13,9 @@ class AppRepresentation {
     let bundleID: String
     let artworkURL: URL
     let ageRating: String
-    
+
     var artwork: UIImage?
-    
+
     init(name: String, bundleID: String, artworkURL: URL, ageRating: String) {
         self.name = name
         self.bundleID = bundleID
