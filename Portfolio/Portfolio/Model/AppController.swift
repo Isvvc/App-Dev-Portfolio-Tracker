@@ -6,7 +6,7 @@
 //  Copyright © 2020 Isaac Lyons. All rights reserved.
 //
 
-import Foundation
+import CoreData
 import SwiftyJSON
 
 extension Notification.Name {
@@ -76,5 +76,18 @@ class AppController {
             app.artwork = image
             NotificationCenter.default.post(name: .loadAppArtwork, object: nil, userInfo: ["index": index])
         }
+    }
+
+    func create(apps representations: [AppRepresentation], context: NSManagedObjectContext) throws {
+        let fetchRequest: NSFetchRequest<App> = App.fetchRequest()
+        let existingApps = try context.fetch(fetchRequest)
+
+        for representation in representations {
+            if !existingApps.contains(where: { $0.id == representation.bundleID }) {
+                App(representation: representation, context: context)
+            }
+        }
+
+        CoreDataStack.shared.save(context: context)
     }
 }

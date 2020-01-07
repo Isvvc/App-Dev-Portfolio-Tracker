@@ -18,7 +18,7 @@ class AppSearchTableViewController: UITableViewController {
 
     // MARK: Properties
 
-    let appController = AppController()
+    var appController: AppController?
     var searchResults: [AppRepresentation] = []
     var selectedApps: [AppRepresentation] = []
 
@@ -118,7 +118,7 @@ extension AppSearchTableViewController: UISearchBarDelegate {
         selectedApps = []
         tableView.reloadData()
         updateViews()
-        appController.search(appName: searchTerm) { apps, error in
+        appController?.search(appName: searchTerm) { apps, error in
             if let error = error {
                 NSLog("Error fetching search results: \(error)")
             }
