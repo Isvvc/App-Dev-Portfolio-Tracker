@@ -78,6 +78,8 @@ class AppDetailTableViewController: UITableViewController {
 
         if let cell = cell as? TitleTableViewCell {
             cell.textView.delegate = self
+            cell.textView.tag = 0
+            textViewDidEndEditing(cell.textView)
             nameTextView = cell.textView
             artworkImageView = cell.artworkImageView
         } else if let cell = cell as? LinkTableViewCell {
@@ -86,6 +88,8 @@ class AppDetailTableViewController: UITableViewController {
             ratingsLabel = cell.ratingsLabel
         } else if let cell = cell as? TextViewTableViewCell {
             cell.textView.delegate = self
+            cell.textView.tag = 1
+            textViewDidEndEditing(cell.textView)
             descriptionTextView = cell.textView
         }
 
@@ -197,8 +201,30 @@ class AppDetailTableViewController: UITableViewController {
 // MARK: Text view delegate
 
 extension AppDetailTableViewController: UITextViewDelegate {
+
     func textViewDidChange(_ textView: UITextView) {
         tableView.beginUpdates()
         tableView.endUpdates()
+    }
+
+    // Manual placeholder text
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            let placeholderText: String
+            if textView.tag == 0 {
+                placeholderText = "App Name"
+            } else {
+                placeholderText = "Description"
+            }
+            textView.text = placeholderText
+            textView.textColor = UIColor.lightGray
+        }
     }
 }
