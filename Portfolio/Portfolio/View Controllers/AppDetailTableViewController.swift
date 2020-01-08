@@ -278,6 +278,8 @@ class AppDetailTableViewController: UITableViewController {
                                   bundleID: bundleID,
                                   userRatingCount: ratings,
                                   artwork: nil,
+                                  contributions: myContributions,
+                                  libraries: libraries,
                                   context: context)
             navigationController?.popViewController(animated: true)
         }

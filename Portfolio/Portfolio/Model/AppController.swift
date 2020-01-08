@@ -124,6 +124,8 @@ class AppController {
                 bundleID: String,
                 userRatingCount: Int16? = nil,
                 artwork: UIImage? = nil,
+                contributions: String? = nil,
+                libraries: NSSet? = nil,
                 context: NSManagedObjectContext) {
         let app = App(ageRating: ageRating,
             appDescription: description,
@@ -132,6 +134,8 @@ class AppController {
             bundleID: bundleID,
             name: name,
             userRatingCount: userRatingCount,
+            contributions: contributions,
+            libraries: libraries,
             context: context)
         CoreDataStack.shared.save(context: context)
 

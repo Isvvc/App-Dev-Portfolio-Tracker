@@ -16,6 +16,8 @@ extension App {
                                         bundleID: String,
                                         name: String,
                                         userRatingCount: Int16?,
+                                        contributions: String? = nil,
+                                        libraries: NSSet? = nil,
                                         context: NSManagedObjectContext) {
         self.init(context: context)
 
@@ -26,6 +28,8 @@ extension App {
         self.appStoreURL = appStoreURL
         self.name = name
         self.userRatingCount = userRatingCount ?? 0
+        self.contributions = contributions
+        self.libraries = libraries
     }
 
     @discardableResult convenience init(representation: AppRepresentation, context: NSManagedObjectContext) {
