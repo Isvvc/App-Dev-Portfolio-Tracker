@@ -21,6 +21,10 @@ class AppDetailTableViewController: UITableViewController {
             if let libraries = app?.mutableSetValue(forKey: "libraries") {
                 self.libraries = libraries
             }
+            if let bundleID = app?.id {
+                artwork = appController?.retrieveImage(forKey: bundleID)
+            }
+            deleteArtworkOnExit = false
         }
     }
 
@@ -28,6 +32,7 @@ class AppDetailTableViewController: UITableViewController {
     var ratings: Int16?
     var bundleID: String?
     var myContributions: String?
+    var artwork: UIImage?
     var libraries: NSMutableSet = NSMutableSet()
     var librariesArray: [Library] {
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
@@ -35,6 +40,7 @@ class AppDetailTableViewController: UITableViewController {
         return array.compactMap({ $0 as? Library })
     }
 
+    var deleteArtworkOnExit = true
     var editMode: Bool = true
     var showMyContributions: Bool {
         return editMode || myContributions != nil
@@ -42,19 +48,20 @@ class AppDetailTableViewController: UITableViewController {
 
     var nameTextView: UITextView?
     var artworkImageView: UIImageView?
-    var ageRatingLabel: UILabel?
+    var ageRatingButton: UIButton?
     var appStoreButton: UIButton?
     var descriptionTextView: UITextView?
-    var ratingsLabel: UILabel?
+    var ratingsButton: UIButton?
     var contributionsTextView: UITextView?
+    var selectPhotoButton: UIButton?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         editMode = (app == nil)
 
-        if let appName = app?.name {
-            title = appName
+        if let app = app {
+            title = app.name
         } else {
             title = "New App"
         }
@@ -67,6 +74,15 @@ class AppDetailTableViewController: UITableViewController {
         // This is to make sure the text views have their height automatically adjusted
         tableView.beginUpdates()
         tableView.endUpdates()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if deleteArtworkOnExit,
+            let bundleID = bundleID {
+            appController?.deleteImage(forKey: bundleID)
+        }
     }
 
     // MARK: - Table view data source
@@ -101,55 +117,64 @@ class AppDetailTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellIdentifier: String
+        let returnCell: UITableViewCell
 
         switch indexPath.section {
         case 0:
-            cellIdentifier = "TitleCell"
-        case 1:
-            cellIdentifier = "LinkCell"
-        case showMyContributions ? 4 : 3:
-            if editMode && indexPath.row == librariesArray.count {
-                cellIdentifier = "SelectLibraryCell"
-            } else {
-                cellIdentifier = "LibraryCell"
-            }
-        default:
-            cellIdentifier = "TextViewCell"
-        }
-
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-
-        if let cell = cell as? TitleTableViewCell {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "TitleCell", for: indexPath)
+                as? TitleTableViewCell else { return UITableViewCell() }
             cell.textView.delegate = self
             cell.textView.tag = 0
+            if app == nil {
+                cell.textView.text = ""
+            }
             textViewDidEndEditing(cell.textView)
             nameTextView = cell.textView
             artworkImageView = cell.artworkImageView
-        } else if let cell = cell as? LinkTableViewCell {
-            ageRatingLabel = cell.ageRating
+            selectPhotoButton = cell.selectPhotoButton
+            selectPhotoButton?.addTarget(self, action: #selector(selectArtwork), for: .touchUpInside)
+            returnCell = cell
+        case 1:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "LinkCell", for: indexPath)
+            as? LinkTableViewCell else { return UITableViewCell() }
+            ageRatingButton = cell.ageRating
+            ageRatingButton?.addTarget(self, action: #selector(setAgeRating), for: .touchUpInside)
             appStoreButton = cell.appStoreButton
-            ratingsLabel = cell.ratingsLabel
-        } else if let cell = cell as? TextViewTableViewCell {
-            if indexPath.section == 2 {
-                cell.textView.delegate = self
-                cell.textView.tag = 1
-                textViewDidEndEditing(cell.textView)
-                descriptionTextView = cell.textView
+            ratingsButton = cell.ratingsButton
+            ratingsButton?.addTarget(self, action: #selector(setRatingsCount), for: .touchUpInside)
+            returnCell = cell
+        case 2...(showMyContributions ? 3 : 2):
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "TextViewCell", for: indexPath)
+                as? TextViewTableViewCell else { return UITableViewCell() }
+                if indexPath.section == 2 {
+                    cell.textView.delegate = self
+                    cell.textView.tag = 1
+                    if app == nil {
+                        cell.textView.text = ""
+                    }
+                    textViewDidEndEditing(cell.textView)
+                    descriptionTextView = cell.textView
+                } else {
+                    cell.textView.delegate = self
+                    cell.textView.tag = 2
+                    if app == nil {
+                        cell.textView.text = ""
+                    }
+                    textViewDidEndEditing(cell.textView)
+                    contributionsTextView = cell.textView
+                }
+            returnCell = cell
+        default:
+            if editMode && indexPath.row == librariesArray.count {
+                returnCell = tableView.dequeueReusableCell(withIdentifier: "SelectLibraryCell", for: indexPath)
             } else {
-                cell.textView.delegate = self
-                cell.textView.tag = 2
-                textViewDidEndEditing(cell.textView)
-                contributionsTextView = cell.textView
-            }
-        } else {
-            if indexPath.row != librariesArray.count || !editMode {
+                returnCell = tableView.dequeueReusableCell(withIdentifier: "LibraryCell", for: indexPath)
                 let library = librariesArray[indexPath.row]
-                cell.textLabel?.text = library.name
+                returnCell.textLabel?.text = library.name
             }
         }
 
-        return cell
+        return returnCell
     }
 
     override func tableView(_ tableView: UITableView,
@@ -180,8 +205,6 @@ class AppDetailTableViewController: UITableViewController {
     }
 
     @objc private func updateAppStoreLink() {
-        print("Update App Store link.")
-
         let alert = UIAlertController(title: "Update Link", message: nil, preferredStyle: .alert)
 
         var urlTextField: UITextField?
@@ -206,28 +229,32 @@ class AppDetailTableViewController: UITableViewController {
     private func loadAppInfo() {
         guard let app = app else { return }
 
-        if let bundleID = app.id {
-            artworkImageView?.image = appController?.retrieveImage(forKey: bundleID)
-            artworkImageView?.layer.cornerRadius = 20
-            artworkImageView?.layer.masksToBounds = true
-        }
+        artworkImageView?.image = artwork
+        artworkImageView?.layer.cornerRadius = 20
+        artworkImageView?.layer.masksToBounds = true
 
         if app.userRatingCount > 0 {
-            ratingsLabel?.text = "\(app.userRatingCount) Ratings"
+            ratingsButton?.setTitle("\(app.userRatingCount) Ratings", for: .disabled)
         } else {
-            ratingsLabel?.text = nil
+            ratingsButton?.setTitle(nil, for: .disabled)
         }
 
         nameTextView?.text = app.name
-        ageRatingLabel?.text = app.ageRating
+        nameTextView?.textColor = UIColor.label
+        ageRatingButton?.setTitle(app.ageRating, for: .disabled)
+        ageRatingButton?.setTitle(app.ageRating, for: .normal)
         descriptionTextView?.text = app.appDescription
+        descriptionTextView?.textColor = UIColor.label
         contributionsTextView?.text = myContributions
+        contributionsTextView?.textColor = UIColor.label
     }
 
     @objc private func save() {
         let context = CoreDataStack.shared.mainContext
         guard let name = nameTextView?.text,
+            nameTextView?.textColor == UIColor.label,
             let appDescription = descriptionTextView?.text,
+            descriptionTextView?.textColor == UIColor.label,
             let bundleID = bundleID,
             !name.isEmpty,
             !appDescription.isEmpty else { return }
@@ -235,7 +262,7 @@ class AppDetailTableViewController: UITableViewController {
         if let app = app {
             appController?.update(app: app,
                                   name: name,
-                                  ageRating: ageRatingLabel?.text,
+                                  ageRating: ageRatingButton?.currentTitle,
                                   description: appDescription,
                                   appStoreURL: appStoreURL,
                                   bundleID: bundleID,
@@ -244,15 +271,23 @@ class AppDetailTableViewController: UITableViewController {
                                   context: context)
         } else {
             appController?.create(appNamed: name,
-                                  ageRating: ageRatingLabel?.text,
+                                  ageRating: ageRatingButton?.currentTitle,
                                   description: appDescription,
                                   appStoreURL: appStoreURL,
                                   artworkURL: nil,
                                   bundleID: bundleID,
                                   userRatingCount: ratings,
                                   artwork: nil,
+                                  contributions: myContributions,
+                                  libraries: libraries,
                                   context: context)
+            navigationController?.popViewController(animated: true)
         }
+
+        if let artwork = artwork {
+            appController?.store(artwork, forKey: bundleID)
+        }
+        deleteArtworkOnExit = false
 
         toggleEditMode()
     }
@@ -275,6 +310,9 @@ class AppDetailTableViewController: UITableViewController {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save,
                                                                 target: self,
                                                                 action: #selector(save))
+            ageRatingButton?.isEnabled = true
+            ratingsButton?.isEnabled = true
+            selectPhotoButton?.isHidden = false
         } else {
             appStoreButton?.setTitle("Open in App Store", for: .normal)
             appStoreButton?.removeTarget(self, action: #selector(updateAppStoreLink), for: .touchUpInside)
@@ -282,7 +320,75 @@ class AppDetailTableViewController: UITableViewController {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
                                                                 target: self,
                                                                 action: #selector(toggleEditMode))
+            ageRatingButton?.isEnabled = false
+            ratingsButton?.isEnabled = false
+            selectPhotoButton?.isHidden = true
         }
+    }
+
+    @objc private func setAgeRating() {
+        let alert = UIAlertController(title: "Set Age Rating", message: nil, preferredStyle: .alert)
+
+        var ageTextField: UITextField?
+        alert.addTextField { textField in
+            textField.placeholder = "4+"
+            ageTextField = textField
+        }
+
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let done = UIAlertAction(title: "Done", style: .default) { _ in
+            guard let string = ageTextField?.text else { return }
+            self.ageRatingButton?.setTitle(string, for: .disabled)
+            self.ageRatingButton?.setTitle(string, for: .normal)
+        }
+
+        alert.addAction(cancel)
+        alert.addAction(done)
+
+        present(alert, animated: true, completion: nil)
+    }
+
+    @objc private func setRatingsCount() {
+        let alert = UIAlertController(title: "Set Number of Ratings", message: nil, preferredStyle: .alert)
+
+        var ageTextField: UITextField?
+        alert.addTextField { textField in
+            if let ratings = self.ratings {
+                textField.text = "\(ratings)"
+            }
+            textField.placeholder = "5"
+            ageTextField = textField
+        }
+
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let done = UIAlertAction(title: "Done", style: .default) { _ in
+            guard let string = ageTextField?.text,
+                let ratings = Int16(string) else { return }
+            self.ratings = ratings
+            self.ratingsButton?.setTitle("\(ratings) Ratings", for: .disabled)
+        }
+
+        alert.addAction(cancel)
+        alert.addAction(done)
+
+        present(alert, animated: true, completion: nil)
+    }
+
+    @objc private func selectArtwork() {
+        presentImagePicker()
+    }
+
+    private func presentImagePicker() {
+        guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
+            NSLog("Photo library is not available")
+            return
+        }
+
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = self
+
+        present(imagePicker, animated: true, completion: nil)
     }
 
     // MARK: Navigation
@@ -322,7 +428,7 @@ extension AppDetailTableViewController: UITextViewDelegate {
             case 0:
                 placeholderText = "App Name"
             case 1:
-                placeholderText = "App Name"
+                placeholderText = "App Description"
             default:
                 placeholderText = "My Contributions"
                 myContributions = nil
@@ -330,5 +436,21 @@ extension AppDetailTableViewController: UITextViewDelegate {
             textView.text = placeholderText
             textView.textColor = UIColor.lightGray
         }
+    }
+}
+
+extension AppDetailTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        if let image = info[.originalImage] as? UIImage {
+            artwork = image
+            artworkImageView?.image = image
+        }
+
+        picker.dismiss(animated: true, completion: nil)
     }
 }

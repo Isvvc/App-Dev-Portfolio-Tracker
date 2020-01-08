@@ -1,19 +1,18 @@
 //
-//  LinkTableViewCell.swift
+//  AppTableViewCell.swift
 //  Portfolio
 //
-//  Created by Isaac Lyons on 1/7/20.
+//  Created by Isaac Lyons on 1/8/20.
 //  Copyright © 2020 Isaac Lyons. All rights reserved.
 //
 
 import UIKit
 
-class LinkTableViewCell: UITableViewCell {
+class AppTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var appStoreButton: UIButton!
-    @IBOutlet weak var ageRating: UIButton!
-    @IBOutlet weak var ratingsButton: UIButton!
-
+    @IBOutlet weak var artworkImageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
