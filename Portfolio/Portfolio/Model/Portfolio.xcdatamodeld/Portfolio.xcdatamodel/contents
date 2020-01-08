@@ -9,8 +9,14 @@
         <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="userRatingCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="libraries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Library" inverseName="apps" inverseEntity="Library"/>
+    </entity>
+    <entity name="Library" representedClassName="Library" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="apps" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="App" inverseName="libraries" inverseEntity="App"/>
     </entity>
     <elements>
-        <element name="App" positionX="-63" positionY="-18" width="128" height="163"/>
+        <element name="App" positionX="-63" positionY="-18" width="128" height="178"/>
+        <element name="Library" positionX="-63" positionY="45" width="128" height="73"/>
     </elements>
 </model>

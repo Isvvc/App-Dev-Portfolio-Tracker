@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		594F447F23C674A700520ED2 /* LibrariesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594F447E23C674A700520ED2 /* LibrariesTableViewController.swift */; };
+		594F448123C6759300520ED2 /* LibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 594F448023C6759300520ED2 /* LibraryController.swift */; };
 		596705CB23C50F9900304CB8 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596705CA23C50F9900304CB8 /* CoreDataStack.swift */; };
 		596705CD23C50FF800304CB8 /* Portfolio+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596705CC23C50FF800304CB8 /* Portfolio+Convenience.swift */; };
 		596705CF23C52E6700304CB8 /* AppDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596705CE23C52E6700304CB8 /* AppDetailTableViewController.swift */; };
@@ -28,6 +30,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		594F447E23C674A700520ED2 /* LibrariesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibrariesTableViewController.swift; sourceTree = "<group>"; };
+		594F448023C6759300520ED2 /* LibraryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryController.swift; sourceTree = "<group>"; };
 		596705CA23C50F9900304CB8 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		596705CC23C50FF800304CB8 /* Portfolio+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Portfolio+Convenience.swift"; sourceTree = "<group>"; };
 		596705CE23C52E6700304CB8 /* AppDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailTableViewController.swift; sourceTree = "<group>"; };
@@ -110,6 +114,7 @@
 				59F49D6023C3B66E00ED5997 /* AppSearchTableViewController.swift */,
 				59F49D7323C3F1E200ED5997 /* AppsTableViewController.swift */,
 				596705CE23C52E6700304CB8 /* AppDetailTableViewController.swift */,
+				594F447E23C674A700520ED2 /* LibrariesTableViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -130,6 +135,7 @@
 				596705CA23C50F9900304CB8 /* CoreDataStack.swift */,
 				59F49D6923C3C28E00ED5997 /* AppRepresentation.swift */,
 				59F49D6B23C3C31F00ED5997 /* AppController.swift */,
+				594F448023C6759300520ED2 /* LibraryController.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -240,8 +246,10 @@
 				596705D723C5371F00304CB8 /* TextViewTableViewCell.swift in Sources */,
 				596705CD23C50FF800304CB8 /* Portfolio+Convenience.swift in Sources */,
 				59F49D7423C3F1E200ED5997 /* AppsTableViewController.swift in Sources */,
+				594F447F23C674A700520ED2 /* LibrariesTableViewController.swift in Sources */,
 				59F49D4B23C3B43600ED5997 /* SceneDelegate.swift in Sources */,
 				59F49D6123C3B66E00ED5997 /* AppSearchTableViewController.swift in Sources */,
+				594F448123C6759300520ED2 /* LibraryController.swift in Sources */,
 				596705D523C5370C00304CB8 /* LinkTableViewCell.swift in Sources */,
 				596705CF23C52E6700304CB8 /* AppDetailTableViewController.swift in Sources */,
 				59F49D6423C3B7C200ED5997 /* NetworkingController.swift in Sources */,
@@ -390,7 +398,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = A4525544Q4;
 				INFOPLIST_FILE = Portfolio/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -409,7 +417,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = A4525544Q4;
 				INFOPLIST_FILE = Portfolio/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

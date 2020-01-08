@@ -18,6 +18,7 @@ class AppDetailTableViewController: UITableViewController {
             ratings = app?.userRatingCount
             bundleID = app?.id
             myContributions = app?.contributions
+            libraries = app?.mutableSetValue(forKey: "apps")
         }
     }
 
@@ -25,6 +26,7 @@ class AppDetailTableViewController: UITableViewController {
     var ratings: Int16?
     var bundleID: String?
     var myContributions: String?
+    var libraries: NSMutableSet?
 
     var editMode: Bool = true
     var showMyContributions: Bool {
@@ -62,10 +64,18 @@ class AppDetailTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return showMyContributions ? 4 : 3
+        return showMyContributions ? 5 : 4
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == (showMyContributions ? 4 : 3) {
+            if editMode {
+                return 2
+            } else {
+                return 1
+            }
+        }
+
         return 1
     }
 
@@ -75,6 +85,8 @@ class AppDetailTableViewController: UITableViewController {
             return "App Description"
         case showMyContributions ? 3 : -1:
             return "My Contributions"
+        case showMyContributions ? 4 : 3:
+            return "API/Libraries Used"
         default:
             return nil
         }
@@ -88,6 +100,12 @@ class AppDetailTableViewController: UITableViewController {
             cellIdentifier = "TitleCell"
         case 1:
             cellIdentifier = "LinkCell"
+        case showMyContributions ? 4 : 3:
+            if editMode && indexPath.row == 1 {
+                cellIdentifier = "SelectLibraryCell"
+            } else {
+                cellIdentifier = "LibraryCell"
+            }
         default:
             cellIdentifier = "TextViewCell"
         }
@@ -130,6 +148,14 @@ class AppDetailTableViewController: UITableViewController {
             updateEditMode()
             tableView.beginUpdates()
             tableView.endUpdates()
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if !(editMode
+            && indexPath.section == (showMyContributions ? 4 : 3)
+            && indexPath.row == 1) {
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
 
