@@ -42,7 +42,7 @@ class AppDetailTableViewController: UITableViewController {
 
     var nameTextView: UITextView?
     var artworkImageView: UIImageView?
-    var ageRatingLabel: UILabel?
+    var ageRatingButton: UIButton?
     var appStoreButton: UIButton?
     var descriptionTextView: UITextView?
     var ratingsLabel: UILabel?
@@ -119,7 +119,8 @@ class AppDetailTableViewController: UITableViewController {
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "LinkCell", for: indexPath)
             as? LinkTableViewCell else { return UITableViewCell() }
-            ageRatingLabel = cell.ageRating
+            ageRatingButton = cell.ageRating
+            ageRatingButton?.addTarget(self, action: #selector(setAgeRating), for: .touchUpInside)
             appStoreButton = cell.appStoreButton
             ratingsLabel = cell.ratingsLabel
             returnCell = cell
@@ -185,8 +186,6 @@ class AppDetailTableViewController: UITableViewController {
     }
 
     @objc private func updateAppStoreLink() {
-        print("Update App Store link.")
-
         let alert = UIAlertController(title: "Update Link", message: nil, preferredStyle: .alert)
 
         var urlTextField: UITextField?
@@ -225,7 +224,8 @@ class AppDetailTableViewController: UITableViewController {
 
         nameTextView?.text = app.name
         nameTextView?.textColor = UIColor.label
-        ageRatingLabel?.text = app.ageRating
+        ageRatingButton?.setTitle(app.ageRating, for: .disabled)
+        ageRatingButton?.setTitle(app.ageRating, for: .normal)
         descriptionTextView?.text = app.appDescription
         descriptionTextView?.textColor = UIColor.label
         contributionsTextView?.text = myContributions
@@ -245,7 +245,7 @@ class AppDetailTableViewController: UITableViewController {
         if let app = app {
             appController?.update(app: app,
                                   name: name,
-                                  ageRating: ageRatingLabel?.text,
+                                  ageRating: ageRatingButton?.currentTitle,
                                   description: appDescription,
                                   appStoreURL: appStoreURL,
                                   bundleID: bundleID,
@@ -254,7 +254,7 @@ class AppDetailTableViewController: UITableViewController {
                                   context: context)
         } else {
             appController?.create(appNamed: name,
-                                  ageRating: ageRatingLabel?.text,
+                                  ageRating: ageRatingButton?.currentTitle,
                                   description: appDescription,
                                   appStoreURL: appStoreURL,
                                   artworkURL: nil,
@@ -286,6 +286,7 @@ class AppDetailTableViewController: UITableViewController {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save,
                                                                 target: self,
                                                                 action: #selector(save))
+            ageRatingButton?.isEnabled = true
         } else {
             appStoreButton?.setTitle("Open in App Store", for: .normal)
             appStoreButton?.removeTarget(self, action: #selector(updateAppStoreLink), for: .touchUpInside)
@@ -293,7 +294,31 @@ class AppDetailTableViewController: UITableViewController {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
                                                                 target: self,
                                                                 action: #selector(toggleEditMode))
+            ageRatingButton?.isEnabled = false
         }
+    }
+
+    @objc private func setAgeRating() {
+        print("age rating")
+        let alert = UIAlertController(title: "Set Age Rating", message: nil, preferredStyle: .alert)
+
+        var ageTextField: UITextField?
+        alert.addTextField { textField in
+            textField.placeholder = "4+"
+            ageTextField = textField
+        }
+
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let done = UIAlertAction(title: "Done", style: .default) { _ in
+            guard let string = ageTextField?.text else { return }
+            self.ageRatingButton?.setTitle(string, for: .disabled)
+            self.ageRatingButton?.setTitle(string, for: .normal)
+        }
+
+        alert.addAction(cancel)
+        alert.addAction(done)
+
+        present(alert, animated: true, completion: nil)
     }
 
     // MARK: Navigation
