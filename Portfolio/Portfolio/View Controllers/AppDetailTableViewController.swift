@@ -163,10 +163,6 @@ class AppDetailTableViewController: UITableViewController {
         nameTextView?.text = app.name
         ageRatingLabel?.text = app.ageRating
         descriptionTextView?.text = app.appDescription
-
-//        appStoreButton?.addTarget(self, action: #selector(openAppStore), for: .touchUpInside)
-//        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(updateAppStoreLink))
-//        appStoreButton?.addGestureRecognizer(longPress)
     }
 
     @objc private func save() {
