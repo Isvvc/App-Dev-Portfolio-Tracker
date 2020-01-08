@@ -40,3 +40,11 @@ extension App {
         self.userRatingCount = representation.userRatingCount ?? 0
     }
 }
+
+extension Library {
+    @discardableResult convenience init(name: String,
+                                        context: NSManagedObjectContext) {
+        self.init(context: context)
+        self.name = name
+    }
+}
