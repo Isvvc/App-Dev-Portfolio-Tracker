@@ -53,8 +53,8 @@ class AppDetailTableViewController: UITableViewController {
 
         editMode = (app == nil)
 
-        if let appName = app?.name {
-            title = appName
+        if let app = app {
+            title = app.name
         } else {
             title = "New App"
         }
@@ -123,6 +123,9 @@ class AppDetailTableViewController: UITableViewController {
         if let cell = cell as? TitleTableViewCell {
             cell.textView.delegate = self
             cell.textView.tag = 0
+            if app == nil {
+                cell.textView.text = ""
+            }
             textViewDidEndEditing(cell.textView)
             nameTextView = cell.textView
             artworkImageView = cell.artworkImageView
@@ -134,11 +137,17 @@ class AppDetailTableViewController: UITableViewController {
             if indexPath.section == 2 {
                 cell.textView.delegate = self
                 cell.textView.tag = 1
+                if app == nil {
+                    cell.textView.text = ""
+                }
                 textViewDidEndEditing(cell.textView)
                 descriptionTextView = cell.textView
             } else {
                 cell.textView.delegate = self
                 cell.textView.tag = 2
+                if app == nil {
+                    cell.textView.text = ""
+                }
                 textViewDidEndEditing(cell.textView)
                 contributionsTextView = cell.textView
             }
@@ -219,15 +228,20 @@ class AppDetailTableViewController: UITableViewController {
         }
 
         nameTextView?.text = app.name
+        nameTextView?.textColor = UIColor.label
         ageRatingLabel?.text = app.ageRating
         descriptionTextView?.text = app.appDescription
+        descriptionTextView?.textColor = UIColor.label
         contributionsTextView?.text = myContributions
+        contributionsTextView?.textColor = UIColor.label
     }
 
     @objc private func save() {
         let context = CoreDataStack.shared.mainContext
         guard let name = nameTextView?.text,
+            nameTextView?.textColor == UIColor.label,
             let appDescription = descriptionTextView?.text,
+            descriptionTextView?.textColor == UIColor.label,
             let bundleID = bundleID,
             !name.isEmpty,
             !appDescription.isEmpty else { return }
@@ -322,7 +336,7 @@ extension AppDetailTableViewController: UITextViewDelegate {
             case 0:
                 placeholderText = "App Name"
             case 1:
-                placeholderText = "App Name"
+                placeholderText = "App Description"
             default:
                 placeholderText = "My Contributions"
                 myContributions = nil
