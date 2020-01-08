@@ -164,9 +164,9 @@ class AppDetailTableViewController: UITableViewController {
         ageRatingLabel?.text = app.ageRating
         descriptionTextView?.text = app.appDescription
 
-        appStoreButton?.addTarget(self, action: #selector(openAppStore), for: .touchUpInside)
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(updateAppStoreLink))
-        appStoreButton?.addGestureRecognizer(longPress)
+//        appStoreButton?.addTarget(self, action: #selector(openAppStore), for: .touchUpInside)
+//        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(updateAppStoreLink))
+//        appStoreButton?.addGestureRecognizer(longPress)
     }
 
     @objc private func save() {
@@ -210,10 +210,16 @@ class AppDetailTableViewController: UITableViewController {
         nameTextView?.isEditable = editMode
         descriptionTextView?.isEditable = editMode
         if editMode {
+            appStoreButton?.setTitle("Tap to edit app store link", for: .normal)
+            appStoreButton?.removeTarget(self, action: #selector(openAppStore), for: .touchUpInside)
+            appStoreButton?.addTarget(self, action: #selector(updateAppStoreLink), for: .touchUpInside)
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save,
                                                                 target: self,
                                                                 action: #selector(save))
         } else {
+            appStoreButton?.setTitle("Open in App Store", for: .normal)
+            appStoreButton?.removeTarget(self, action: #selector(updateAppStoreLink), for: .touchUpInside)
+            appStoreButton?.addTarget(self, action: #selector(openAppStore), for: .touchUpInside)
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
                                                                 target: self,
                                                                 action: #selector(toggleEditMode))
