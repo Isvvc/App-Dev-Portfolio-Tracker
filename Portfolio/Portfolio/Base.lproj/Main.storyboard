@@ -196,25 +196,24 @@
                                             <rect key="frame" x="144" y="7" width="126" height="30"/>
                                             <state key="normal" title="Open in App Store"/>
                                         </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="# Ratings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bHB-au-IZE">
-                                            <rect key="frame" x="20" y="13" width="65" height="18"/>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                            <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XY5-go-39y">
                                             <rect key="frame" x="364" y="5.5" width="30" height="33"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                             <state key="normal" title="4+"/>
                                         </button>
+                                        <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zat-DL-Eb3">
+                                            <rect key="frame" x="20" y="7" width="61" height="30"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                            <state key="normal" title="# ratings"/>
+                                        </button>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="zat-DL-Eb3" firstAttribute="centerY" secondItem="cdz-64-TbP" secondAttribute="centerY" id="3FU-pX-Acd"/>
                                         <constraint firstItem="M61-uS-OII" firstAttribute="centerX" secondItem="cdz-64-TbP" secondAttribute="centerX" id="40b-bY-DXn"/>
                                         <constraint firstItem="XY5-go-39y" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="M61-uS-OII" secondAttribute="trailing" constant="8" id="CDu-hN-YY6"/>
-                                        <constraint firstItem="bHB-au-IZE" firstAttribute="leading" secondItem="cdz-64-TbP" secondAttribute="leadingMargin" id="E7p-lb-kja"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="XY5-go-39y" secondAttribute="trailing" id="IpD-si-dX9"/>
-                                        <constraint firstItem="M61-uS-OII" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="bHB-au-IZE" secondAttribute="trailing" constant="8" id="X9H-L7-s5Q"/>
-                                        <constraint firstItem="bHB-au-IZE" firstAttribute="centerY" secondItem="cdz-64-TbP" secondAttribute="centerY" id="cfx-Pt-gcj"/>
+                                        <constraint firstItem="zat-DL-Eb3" firstAttribute="leading" secondItem="cdz-64-TbP" secondAttribute="leadingMargin" id="aUZ-qN-893"/>
+                                        <constraint firstItem="M61-uS-OII" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="zat-DL-Eb3" secondAttribute="trailing" constant="8" id="dqf-dP-Ran"/>
                                         <constraint firstItem="XY5-go-39y" firstAttribute="centerY" secondItem="cdz-64-TbP" secondAttribute="centerY" id="xgl-N6-7dO"/>
                                         <constraint firstItem="M61-uS-OII" firstAttribute="centerY" secondItem="cdz-64-TbP" secondAttribute="centerY" id="yjb-yx-OM7"/>
                                     </constraints>
@@ -222,7 +221,7 @@
                                 <connections>
                                     <outlet property="ageRating" destination="XY5-go-39y" id="GpD-Of-nyY"/>
                                     <outlet property="appStoreButton" destination="M61-uS-OII" id="4eu-a4-dcP"/>
-                                    <outlet property="ratingsLabel" destination="bHB-au-IZE" id="6p6-a7-XAZ"/>
+                                    <outlet property="ratingsButton" destination="zat-DL-Eb3" id="PC8-5Y-ZE2"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TextViewCell" id="zDO-pA-k6U" customClass="TextViewTableViewCell" customModule="Portfolio" customModuleProvider="target">

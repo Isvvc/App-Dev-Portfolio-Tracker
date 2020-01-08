@@ -45,7 +45,7 @@ class AppDetailTableViewController: UITableViewController {
     var ageRatingButton: UIButton?
     var appStoreButton: UIButton?
     var descriptionTextView: UITextView?
-    var ratingsLabel: UILabel?
+    var ratingsButton: UIButton?
     var contributionsTextView: UITextView?
 
     override func viewDidLoad() {
@@ -122,7 +122,8 @@ class AppDetailTableViewController: UITableViewController {
             ageRatingButton = cell.ageRating
             ageRatingButton?.addTarget(self, action: #selector(setAgeRating), for: .touchUpInside)
             appStoreButton = cell.appStoreButton
-            ratingsLabel = cell.ratingsLabel
+            ratingsButton = cell.ratingsButton
+            ratingsButton?.addTarget(self, action: #selector(setRatingsCount), for: .touchUpInside)
             returnCell = cell
         case 2...(showMyContributions ? 3 : 2):
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "TextViewCell", for: indexPath)
@@ -217,9 +218,9 @@ class AppDetailTableViewController: UITableViewController {
         }
 
         if app.userRatingCount > 0 {
-            ratingsLabel?.text = "\(app.userRatingCount) Ratings"
+            ratingsButton?.setTitle("\(app.userRatingCount) Ratings", for: .disabled)
         } else {
-            ratingsLabel?.text = nil
+            ratingsButton?.setTitle(nil, for: .disabled)
         }
 
         nameTextView?.text = app.name
@@ -287,6 +288,7 @@ class AppDetailTableViewController: UITableViewController {
                                                                 target: self,
                                                                 action: #selector(save))
             ageRatingButton?.isEnabled = true
+            ratingsButton?.isEnabled = true
         } else {
             appStoreButton?.setTitle("Open in App Store", for: .normal)
             appStoreButton?.removeTarget(self, action: #selector(updateAppStoreLink), for: .touchUpInside)
@@ -295,11 +297,11 @@ class AppDetailTableViewController: UITableViewController {
                                                                 target: self,
                                                                 action: #selector(toggleEditMode))
             ageRatingButton?.isEnabled = false
+            ratingsButton?.isEnabled = false
         }
     }
 
     @objc private func setAgeRating() {
-        print("age rating")
         let alert = UIAlertController(title: "Set Age Rating", message: nil, preferredStyle: .alert)
 
         var ageTextField: UITextField?
@@ -313,6 +315,32 @@ class AppDetailTableViewController: UITableViewController {
             guard let string = ageTextField?.text else { return }
             self.ageRatingButton?.setTitle(string, for: .disabled)
             self.ageRatingButton?.setTitle(string, for: .normal)
+        }
+
+        alert.addAction(cancel)
+        alert.addAction(done)
+
+        present(alert, animated: true, completion: nil)
+    }
+
+    @objc private func setRatingsCount() {
+        let alert = UIAlertController(title: "Set Number of Ratings", message: nil, preferredStyle: .alert)
+
+        var ageTextField: UITextField?
+        alert.addTextField { textField in
+            if let ratings = self.ratings {
+                textField.text = "\(ratings)"
+            }
+            textField.placeholder = "5"
+            ageTextField = textField
+        }
+
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let done = UIAlertAction(title: "Done", style: .default) { _ in
+            guard let string = ageTextField?.text,
+                let ratings = Int16(string) else { return }
+            self.ratings = ratings
+            self.ratingsButton?.setTitle("\(ratings) Ratings", for: .disabled)
         }
 
         alert.addAction(cancel)

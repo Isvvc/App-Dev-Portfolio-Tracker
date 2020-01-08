@@ -12,7 +12,7 @@ class LinkTableViewCell: UITableViewCell {
 
     @IBOutlet weak var appStoreButton: UIButton!
     @IBOutlet weak var ageRating: UIButton!
-    @IBOutlet weak var ratingsLabel: UILabel!
+    @IBOutlet weak var ratingsButton: UIButton!
 
     override func awakeFromNib() {
         super.awakeFromNib()
