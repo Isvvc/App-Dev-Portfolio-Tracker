@@ -11,7 +11,7 @@
             <objects>
                 <tableViewController id="yuo-Hs-Pvm" customClass="AppSearchTableViewController" customModule="Portfolio" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="mHD-QJ-wJg">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search the App Store" id="oRV-DY-By5">
@@ -69,8 +69,9 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="NhL-x2-6w8" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="QDj-RX-aBC"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="yZB-Pw-zH7">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="108"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -115,7 +116,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="DLd-lu-mQN" kind="show" id="kki-1H-JEm"/>
+                                    <segue destination="DLd-lu-mQN" kind="show" identifier="AppDetails" id="kki-1H-JEm"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -127,10 +128,13 @@
                     <navigationItem key="navigationItem" title="Apps" id="vT2-ua-vuV">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="beX-kP-pb6">
                             <connections>
-                                <segue destination="NhL-x2-6w8" kind="presentation" id="pNp-6K-anl"/>
+                                <action selector="addApp:" destination="gl7-F5-AF4" id="Lm7-Ur-L0l"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="NhL-x2-6w8" kind="show" identifier="SearchApps" id="esR-Vj-d6W"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mCx-7x-wKM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

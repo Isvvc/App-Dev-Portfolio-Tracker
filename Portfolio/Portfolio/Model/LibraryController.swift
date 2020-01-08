@@ -13,7 +13,7 @@ class LibraryController {
         Library(name: name, context: context)
         CoreDataStack.shared.save(context: context)
     }
-    
+
     func delete(library: Library, context: NSManagedObjectContext) {
         context.delete(library)
         CoreDataStack.shared.save(context: context)

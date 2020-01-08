@@ -119,6 +119,32 @@ class AppsTableViewController: UITableViewController {
     }
     */
 
+    // MARK: Actions
+
+    @IBAction func addApp(_ sender: Any) {
+        let message = "Would you like to search the App Store for you app, or create a new one manually?"
+        let alert = UIAlertController(title: "New App",
+                                      message: message,
+                                      preferredStyle: .actionSheet)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let search = UIAlertAction(title: "Search", style: .default) { _ in
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "SearchApps", sender: self)
+            }
+        }
+        let new = UIAlertAction(title: "Create New", style: .default) { _ in
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "AppDetails", sender: self)
+            }
+        }
+
+        alert.addAction(cancel)
+        alert.addAction(search)
+        alert.addAction(new)
+
+        present(alert, animated: true, completion: nil)
+    }
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -134,13 +160,45 @@ class AppsTableViewController: UITableViewController {
                 do {
                     try self.appController.create(apps: apps, context: CoreDataStack.shared.mainContext)
                 } catch {
-                    NSLog("Unable to fetch existing apps: \(error)")
+                    NSLog("Unable to add apps: \(error)")
                 }
             }
         } else if let appDetailVC = segue.destination as? AppDetailTableViewController {
             appDetailVC.appController = appController
             if let indexPath = tableView.indexPathForSelectedRow {
                 appDetailVC.app = fetchedResultsController.object(at: indexPath)
+            } else {
+                let alert = UIAlertController(title: "Enter the app's Bundle Identifier",
+                                              message: nil,
+                                              preferredStyle: .alert)
+
+                var bundleIDTextField: UITextField?
+                alert.addTextField { textField in
+                    textField.placeholder = "com.example.app"
+                    bundleIDTextField = textField
+                }
+
+                let cancel = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+                    DispatchQueue.main.async {
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                }
+                let done = UIAlertAction(title: "Done", style: .default) { _ in
+                    guard let bundleID = bundleIDTextField?.text else {
+                        DispatchQueue.main.async {
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                        return
+                    }
+                    appDetailVC.bundleID = bundleID
+                }
+
+                alert.addAction(cancel)
+                alert.addAction(done)
+
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true, completion: nil)
+                }
             }
         }
     }
