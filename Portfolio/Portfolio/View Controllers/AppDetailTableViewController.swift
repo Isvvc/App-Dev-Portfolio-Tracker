@@ -21,6 +21,10 @@ class AppDetailTableViewController: UITableViewController {
             if let libraries = app?.mutableSetValue(forKey: "libraries") {
                 self.libraries = libraries
             }
+            if let bundleID = app?.id {
+                artwork = appController?.retrieveImage(forKey: bundleID)
+            }
+            deleteArtworkOnExit = false
         }
     }
 
@@ -36,6 +40,7 @@ class AppDetailTableViewController: UITableViewController {
         return array.compactMap({ $0 as? Library })
     }
 
+    var deleteArtworkOnExit = true
     var editMode: Bool = true
     var showMyContributions: Bool {
         return editMode || myContributions != nil
@@ -69,6 +74,15 @@ class AppDetailTableViewController: UITableViewController {
         // This is to make sure the text views have their height automatically adjusted
         tableView.beginUpdates()
         tableView.endUpdates()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if deleteArtworkOnExit,
+            let bundleID = bundleID {
+            appController?.deleteImage(forKey: bundleID)
+        }
     }
 
     // MARK: - Table view data source
@@ -215,11 +229,9 @@ class AppDetailTableViewController: UITableViewController {
     private func loadAppInfo() {
         guard let app = app else { return }
 
-        if let bundleID = app.id {
-            artworkImageView?.image = appController?.retrieveImage(forKey: bundleID)
-            artworkImageView?.layer.cornerRadius = 20
-            artworkImageView?.layer.masksToBounds = true
-        }
+        artworkImageView?.image = artwork
+        artworkImageView?.layer.cornerRadius = 20
+        artworkImageView?.layer.masksToBounds = true
 
         if app.userRatingCount > 0 {
             ratingsButton?.setTitle("\(app.userRatingCount) Ratings", for: .disabled)
@@ -269,6 +281,11 @@ class AppDetailTableViewController: UITableViewController {
                                   context: context)
             navigationController?.popViewController(animated: true)
         }
+
+        if let artwork = artwork {
+            appController?.store(artwork, forKey: bundleID)
+        }
+        deleteArtworkOnExit = false
 
         toggleEditMode()
     }

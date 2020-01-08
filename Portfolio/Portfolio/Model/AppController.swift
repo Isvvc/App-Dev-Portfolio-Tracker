@@ -180,7 +180,7 @@ class AppController {
         return documentURL.appendingPathComponent(key + ".png")
     }
 
-    private func store(_ image: UIImage, forKey key: String) {
+    func store(_ image: UIImage, forKey key: String) {
         guard let png = image.pngData(),
             let filePath = filePath(forKey: key) else { return }
         do {
@@ -190,7 +190,7 @@ class AppController {
         }
     }
 
-    private func deleteImage(forKey key: String) {
+    func deleteImage(forKey key: String) {
         guard let filePath = filePath(forKey: key) else { return }
         do {
             try FileManager.default.removeItem(at: filePath)

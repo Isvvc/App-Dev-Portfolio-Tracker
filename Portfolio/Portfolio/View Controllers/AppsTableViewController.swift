@@ -23,6 +23,11 @@ class AppsTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+
     lazy var fetchedResultsController: NSFetchedResultsController<App> = {
         let fetchRequest: NSFetchRequest<App> = App.fetchRequest()
 
