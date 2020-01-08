@@ -43,14 +43,16 @@ class AppController {
                         let artworkURL = appJSON["artworkUrl512"].url,
                         let ageRating = appJSON["contentAdvisoryRating"].string,
                         let description = appJSON["description"].string,
-                        let appStoreURL = appJSON["trackViewUrl"].url else { continue }
+                        let appStoreURL = appJSON["trackViewUrl"].url,
+                        let userRatingCount = appJSON["userRatingCount"].int16 else { continue }
 
                     let app = AppRepresentation(name: name,
                                                 bundleID: bundleID,
                                                 artworkURL: artworkURL,
                                                 ageRating: ageRating,
                                                 description: description,
-                                                appStoreURL: appStoreURL)
+                                                appStoreURL: appStoreURL,
+                                                userRatingCount: userRatingCount)
 
                     self.fetchArtwork(app: app, index: apps.count)
 
@@ -65,7 +67,8 @@ class AppController {
     }
 
     func fetchArtwork(app: AppRepresentation, index: Int) {
-        networkingController.fetchImage(from: app.artworkURL) { image, error in
+        guard let artworkURL = app.artworkURL else { return }
+        networkingController.fetchImage(from: artworkURL) { image, error in
             if let error = error {
                 return NSLog("Error fetching artwork: \(error)")
             }
@@ -76,6 +79,22 @@ class AppController {
 
             app.artwork = image
             NotificationCenter.default.post(name: .loadAppArtwork, object: nil, userInfo: ["index": index])
+        }
+    }
+
+    func fetchAndStoreArtwork(app: App) {
+        guard let artworkURL = app.artworkURL,
+            let bundleID = app.id else { return }
+        networkingController.fetchImage(from: artworkURL) { image, error in
+            if let error = error {
+                return NSLog("Error fetching artwork: \(error)")
+            }
+
+            guard let image = image else {
+                return NSLog("No image data returned from artwork fetch.")
+            }
+
+            self.store(image, forKey: bundleID)
         }
     }
 
@@ -97,11 +116,54 @@ class AppController {
         CoreDataStack.shared.save(context: context)
     }
 
+    func create(appNamed name: String,
+                ageRating: String? = nil,
+                description: String,
+                appStoreURL: URL? = nil,
+                artworkURL: URL? = nil,
+                bundleID: String,
+                userRatingCount: Int16? = nil,
+                artwork: UIImage? = nil,
+                context: NSManagedObjectContext) {
+        let app = App(ageRating: ageRating,
+            appDescription: description,
+            appStoreURL: appStoreURL,
+            artworkURL: artworkURL,
+            bundleID: bundleID,
+            name: name,
+            userRatingCount: userRatingCount,
+            context: context)
+        CoreDataStack.shared.save(context: context)
+
+        if let artwork = artwork {
+            store(artwork, forKey: bundleID)
+        } else if app.artworkURL != nil {
+            fetchAndStoreArtwork(app: app)
+        }
+    }
+
     func delete(app: App, context: NSManagedObjectContext) {
         if let bundleID = app.id {
             deleteImage(forKey: bundleID)
         }
         context.delete(app)
+        CoreDataStack.shared.save(context: context)
+    }
+
+    func update(app: App,
+                name: String,
+                ageRating: String? = nil,
+                description: String,
+                appStoreURL: URL? = nil,
+                bundleID: String,
+                userRatingCount: Int16? = nil,
+                context: NSManagedObjectContext) {
+        app.name = name
+        app.ageRating = ageRating
+        app.id = bundleID
+        app.appDescription = description
+        app.appStoreURL = appStoreURL
+        app.userRatingCount = userRatingCount ?? 0
         CoreDataStack.shared.save(context: context)
     }
 
