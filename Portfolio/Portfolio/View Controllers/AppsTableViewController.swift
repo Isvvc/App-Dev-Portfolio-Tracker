@@ -58,16 +58,16 @@ class AppsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AppCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "AppCell", for: indexPath)
+            as? AppTableViewCell else { return UITableViewCell() }
 
         let app = fetchedResultsController.object(at: indexPath)
 
-        cell.textLabel?.text = app.name
+        cell.nameLabel?.text = app.name
         if let bundleID = app.id {
-            cell.imageView?.image = appController.retrieveImage(forKey: bundleID)
-            // TODO: calculate the corner radius based on size of the imageView
-            cell.imageView?.layer.cornerRadius = 10
-            cell.imageView?.layer.masksToBounds = true
+            cell.artworkImageView.image = appController.retrieveImage(forKey: bundleID)
+            cell.artworkImageView?.layer.cornerRadius = 10
+            cell.artworkImageView?.layer.masksToBounds = true
         }
 
         return cell

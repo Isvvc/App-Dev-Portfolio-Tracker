@@ -64,17 +64,14 @@ class AppSearchTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AppCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "AppCell", for: indexPath)
+            as? AppTableViewCell else { return UITableViewCell() }
 
         let app = searchResults[indexPath.row]
-        cell.textLabel?.text = app.name
-        cell.imageView?.image = app.artwork
-
-        // App icons of size 512x512 have corner radius.
-        // This value is based on the image height being 44.333
-        // TODO: calculate the corner radius based on size of the imageView
-        cell.imageView?.layer.cornerRadius = 7
-        cell.imageView?.layer.masksToBounds = true
+        cell.nameLabel?.text = app.name
+        cell.artworkImageView?.image = app.artwork
+        cell.artworkImageView?.layer.cornerRadius = 10
+        cell.artworkImageView?.layer.masksToBounds = true
 
         cell.accessoryType = selectedApps.contains(where: { $0.bundleID == app.bundleID }) ? .checkmark : .none
 
