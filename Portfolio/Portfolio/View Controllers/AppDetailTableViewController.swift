@@ -24,6 +24,8 @@ class AppDetailTableViewController: UITableViewController {
     var ratings: Int16?
     var bundleID: String?
 
+    var editMode: Bool = true
+
     var nameTextView: UITextView?
     var artworkImageView: UIImageView?
     var ageRatingLabel: UILabel?
@@ -33,6 +35,10 @@ class AppDetailTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        if app != nil {
+            toggleEditMode()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -102,6 +108,7 @@ class AppDetailTableViewController: UITableViewController {
         if let lastVisibleIndexPath = tableView.indexPathsForVisibleRows?.last,
             indexPath == lastVisibleIndexPath {
             loadAppInfo()
+            updateEditMode()
             tableView.beginUpdates()
             tableView.endUpdates()
         }
@@ -162,9 +169,7 @@ class AppDetailTableViewController: UITableViewController {
         appStoreButton?.addGestureRecognizer(longPress)
     }
 
-    // MARK: Actions
-
-    @IBAction func save(_ sender: Any) {
+    @objc private func save() {
         let context = CoreDataStack.shared.mainContext
         guard let name = nameTextView?.text,
             let appDescription = descriptionTextView?.text,
@@ -193,7 +198,26 @@ class AppDetailTableViewController: UITableViewController {
                                   context: context)
         }
 
-        navigationController?.popViewController(animated: true)
+        toggleEditMode()
+    }
+
+    @objc private func toggleEditMode() {
+        editMode.toggle()
+        updateEditMode()
+    }
+
+    private func updateEditMode() {
+        nameTextView?.isEditable = editMode
+        descriptionTextView?.isEditable = editMode
+        if editMode {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save,
+                                                                target: self,
+                                                                action: #selector(save))
+        } else {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
+                                                                target: self,
+                                                                action: #selector(toggleEditMode))
+        }
     }
 
 }
