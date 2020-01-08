@@ -157,6 +157,7 @@ class AppController {
                 appStoreURL: URL? = nil,
                 bundleID: String,
                 userRatingCount: Int16? = nil,
+                contributions: String? = nil,
                 context: NSManagedObjectContext) {
         app.name = name
         app.ageRating = ageRating
@@ -164,6 +165,7 @@ class AppController {
         app.appDescription = description
         app.appStoreURL = appStoreURL
         app.userRatingCount = userRatingCount ?? 0
+        app.contributions = contributions
         CoreDataStack.shared.save(context: context)
     }
 

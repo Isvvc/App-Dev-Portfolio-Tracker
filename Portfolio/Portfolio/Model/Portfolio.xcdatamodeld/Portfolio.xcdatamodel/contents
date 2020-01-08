@@ -5,11 +5,12 @@
         <attribute name="appDescription" optional="YES" attributeType="String"/>
         <attribute name="appStoreURL" optional="YES" attributeType="URI"/>
         <attribute name="artworkURL" optional="YES" attributeType="URI"/>
+        <attribute name="contributions" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="userRatingCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="App" positionX="-63" positionY="-18" width="128" height="148"/>
+        <element name="App" positionX="-63" positionY="-18" width="128" height="163"/>
     </elements>
 </model>

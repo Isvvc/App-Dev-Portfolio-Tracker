@@ -17,14 +17,19 @@ class AppDetailTableViewController: UITableViewController {
             appStoreURL = app?.appStoreURL
             ratings = app?.userRatingCount
             bundleID = app?.id
+            myContributions = app?.contributions
         }
     }
 
     var appStoreURL: URL?
     var ratings: Int16?
     var bundleID: String?
+    var myContributions: String?
 
     var editMode: Bool = true
+    var showMyContributions: Bool {
+        return editMode || myContributions != nil
+    }
 
     var nameTextView: UITextView?
     var artworkImageView: UIImageView?
@@ -32,12 +37,17 @@ class AppDetailTableViewController: UITableViewController {
     var appStoreButton: UIButton?
     var descriptionTextView: UITextView?
     var ratingsLabel: UILabel?
+    var contributionsTextView: UITextView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if app != nil {
-            toggleEditMode()
+        editMode = (app == nil)
+
+        if let appName = app?.name {
+            title = appName
+        } else {
+            title = "New App"
         }
     }
 
@@ -52,7 +62,7 @@ class AppDetailTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return showMyContributions ? 4 : 3
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -63,6 +73,8 @@ class AppDetailTableViewController: UITableViewController {
         switch section {
         case 2:
             return "App Description"
+        case showMyContributions ? 3 : -1:
+            return "My Contributions"
         default:
             return nil
         }
@@ -93,10 +105,17 @@ class AppDetailTableViewController: UITableViewController {
             appStoreButton = cell.appStoreButton
             ratingsLabel = cell.ratingsLabel
         } else if let cell = cell as? TextViewTableViewCell {
-            cell.textView.delegate = self
-            cell.textView.tag = 1
-            textViewDidEndEditing(cell.textView)
-            descriptionTextView = cell.textView
+            if indexPath.section == 2 {
+                cell.textView.delegate = self
+                cell.textView.tag = 1
+                textViewDidEndEditing(cell.textView)
+                descriptionTextView = cell.textView
+            } else {
+                cell.textView.delegate = self
+                cell.textView.tag = 2
+                textViewDidEndEditing(cell.textView)
+                contributionsTextView = cell.textView
+            }
         }
 
         return cell
@@ -163,6 +182,7 @@ class AppDetailTableViewController: UITableViewController {
         nameTextView?.text = app.name
         ageRatingLabel?.text = app.ageRating
         descriptionTextView?.text = app.appDescription
+        contributionsTextView?.text = myContributions
     }
 
     @objc private func save() {
@@ -181,6 +201,7 @@ class AppDetailTableViewController: UITableViewController {
                                   appStoreURL: appStoreURL,
                                   bundleID: bundleID,
                                   userRatingCount: ratings,
+                                  contributions: myContributions,
                                   context: context)
         } else {
             appController?.create(appNamed: name,
@@ -199,12 +220,15 @@ class AppDetailTableViewController: UITableViewController {
 
     @objc private func toggleEditMode() {
         editMode.toggle()
+        tableView.reloadData()
         updateEditMode()
     }
 
     private func updateEditMode() {
         nameTextView?.isEditable = editMode
         descriptionTextView?.isEditable = editMode
+        contributionsTextView?.isEditable = editMode
+
         if editMode {
             appStoreButton?.setTitle("Tap to edit app store link", for: .normal)
             appStoreButton?.removeTarget(self, action: #selector(openAppStore), for: .touchUpInside)
@@ -231,10 +255,15 @@ extension AppDetailTableViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         tableView.beginUpdates()
         tableView.endUpdates()
+        if textView.tag == 2 {
+            myContributions = textView.text
+        }
     }
 
     // Manual placeholder text
     func textViewDidBeginEditing(_ textView: UITextView) {
+        tableView.beginUpdates()
+        tableView.endUpdates()
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
             textView.textColor = UIColor.black
@@ -244,10 +273,14 @@ extension AppDetailTableViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             let placeholderText: String
-            if textView.tag == 0 {
+            switch textView.tag {
+            case 0:
                 placeholderText = "App Name"
-            } else {
-                placeholderText = "Description"
+            case 1:
+                placeholderText = "App Name"
+            default:
+                placeholderText = "My Contributions"
+                myContributions = nil
             }
             textView.text = placeholderText
             textView.textColor = UIColor.lightGray
