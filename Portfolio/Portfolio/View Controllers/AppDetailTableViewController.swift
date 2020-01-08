@@ -16,11 +16,13 @@ class AppDetailTableViewController: UITableViewController {
         didSet {
             appStoreURL = app?.appStoreURL
             ratings = app?.userRatingCount
+            bundleID = app?.id
         }
     }
 
     var appStoreURL: URL?
     var ratings: Int16?
+    var bundleID: String?
 
     var nameTextView: UITextView?
     var artworkImageView: UIImageView?
@@ -159,11 +161,35 @@ class AppDetailTableViewController: UITableViewController {
     // MARK: Actions
 
     @IBAction func save(_ sender: Any) {
+        let context = CoreDataStack.shared.mainContext
+        guard let name = nameTextView?.text,
+            let appDescription = descriptionTextView?.text,
+            let bundleID = bundleID,
+            !name.isEmpty,
+            !appDescription.isEmpty else { return }
+
         if let app = app {
-            // TODO: Update app
+            appController?.update(app: app,
+                                  name: name,
+                                  ageRating: ageRatingLabel?.text,
+                                  description: appDescription,
+                                  appStoreURL: appStoreURL,
+                                  bundleID: bundleID,
+                                  userRatingCount: ratings,
+                                  context: context)
         } else {
-            // TODO: Save new app
+            appController?.create(appNamed: name,
+                                  ageRating: ageRatingLabel?.text,
+                                  description: appDescription,
+                                  appStoreURL: appStoreURL,
+                                  artworkURL: nil,
+                                  bundleID: bundleID,
+                                  userRatingCount: ratings,
+                                  artwork: nil,
+                                  context: context)
         }
+
+        navigationController?.popViewController(animated: true)
     }
 
 }

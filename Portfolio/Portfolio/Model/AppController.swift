@@ -150,6 +150,23 @@ class AppController {
         CoreDataStack.shared.save(context: context)
     }
 
+    func update(app: App,
+                name: String,
+                ageRating: String? = nil,
+                description: String,
+                appStoreURL: URL? = nil,
+                bundleID: String,
+                userRatingCount: Int16? = nil,
+                context: NSManagedObjectContext) {
+        app.name = name
+        app.ageRating = ageRating
+        app.id = bundleID
+        app.appDescription = description
+        app.appStoreURL = appStoreURL
+        app.userRatingCount = userRatingCount ?? 0
+        CoreDataStack.shared.save(context: context)
+    }
+
     // MARK: Local Storage
 
     private func filePath(forKey key: String) -> URL? {
