@@ -262,11 +262,9 @@ extension AppDetailTableViewController: UITextViewDelegate {
 
     // Manual placeholder text
     func textViewDidBeginEditing(_ textView: UITextView) {
-        tableView.beginUpdates()
-        tableView.endUpdates()
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
-            textView.textColor = UIColor.black
+            textView.textColor = UIColor.label
         }
     }
 
