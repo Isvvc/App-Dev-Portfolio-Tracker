@@ -101,26 +101,12 @@ class AppDetailTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellIdentifier: String
+        let returnCell: UITableViewCell
 
         switch indexPath.section {
         case 0:
-            cellIdentifier = "TitleCell"
-        case 1:
-            cellIdentifier = "LinkCell"
-        case showMyContributions ? 4 : 3:
-            if editMode && indexPath.row == librariesArray.count {
-                cellIdentifier = "SelectLibraryCell"
-            } else {
-                cellIdentifier = "LibraryCell"
-            }
-        default:
-            cellIdentifier = "TextViewCell"
-        }
-
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-
-        if let cell = cell as? TitleTableViewCell {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "TitleCell", for: indexPath)
+                as? TitleTableViewCell else { return UITableViewCell() }
             cell.textView.delegate = self
             cell.textView.tag = 0
             if app == nil {
@@ -129,36 +115,46 @@ class AppDetailTableViewController: UITableViewController {
             textViewDidEndEditing(cell.textView)
             nameTextView = cell.textView
             artworkImageView = cell.artworkImageView
-        } else if let cell = cell as? LinkTableViewCell {
+            returnCell = cell
+        case 1:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "LinkCell", for: indexPath)
+            as? LinkTableViewCell else { return UITableViewCell() }
             ageRatingLabel = cell.ageRating
             appStoreButton = cell.appStoreButton
             ratingsLabel = cell.ratingsLabel
-        } else if let cell = cell as? TextViewTableViewCell {
-            if indexPath.section == 2 {
-                cell.textView.delegate = self
-                cell.textView.tag = 1
-                if app == nil {
-                    cell.textView.text = ""
+            returnCell = cell
+        case 2...(showMyContributions ? 3 : 2):
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "TextViewCell", for: indexPath)
+                as? TextViewTableViewCell else { return UITableViewCell() }
+                if indexPath.section == 2 {
+                    cell.textView.delegate = self
+                    cell.textView.tag = 1
+                    if app == nil {
+                        cell.textView.text = ""
+                    }
+                    textViewDidEndEditing(cell.textView)
+                    descriptionTextView = cell.textView
+                } else {
+                    cell.textView.delegate = self
+                    cell.textView.tag = 2
+                    if app == nil {
+                        cell.textView.text = ""
+                    }
+                    textViewDidEndEditing(cell.textView)
+                    contributionsTextView = cell.textView
                 }
-                textViewDidEndEditing(cell.textView)
-                descriptionTextView = cell.textView
+            returnCell = cell
+        default:
+            if editMode && indexPath.row == librariesArray.count {
+                returnCell = tableView.dequeueReusableCell(withIdentifier: "SelectLibraryCell", for: indexPath)
             } else {
-                cell.textView.delegate = self
-                cell.textView.tag = 2
-                if app == nil {
-                    cell.textView.text = ""
-                }
-                textViewDidEndEditing(cell.textView)
-                contributionsTextView = cell.textView
-            }
-        } else {
-            if indexPath.row != librariesArray.count || !editMode {
+                returnCell = tableView.dequeueReusableCell(withIdentifier: "LibraryCell", for: indexPath)
                 let library = librariesArray[indexPath.row]
-                cell.textLabel?.text = library.name
+                returnCell.textLabel?.text = library.name
             }
         }
 
-        return cell
+        return returnCell
     }
 
     override func tableView(_ tableView: UITableView,
@@ -266,6 +262,7 @@ class AppDetailTableViewController: UITableViewController {
                                   userRatingCount: ratings,
                                   artwork: nil,
                                   context: context)
+            navigationController?.popViewController(animated: true)
         }
 
         toggleEditMode()
