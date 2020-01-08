@@ -10,9 +10,10 @@ import UIKit
 import CoreData
 
 class LibrariesTableViewController: UITableViewController {
-    
+
     let libraryController = LibraryController()
-    
+    var libraries: NSMutableSet?
+
     lazy var fetchedResultsController: NSFetchedResultsController<Library> = {
         let fetchRequest: NSFetchRequest<Library> = Library.fetchRequest()
 
@@ -38,12 +39,6 @@ class LibrariesTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     // MARK: - Table view data source
@@ -55,45 +50,39 @@ class LibrariesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LibraryCell", for: indexPath)
 
-        cell.textLabel?.text = fetchedResultsController.object(at: indexPath).name
+        let library = fetchedResultsController.object(at: indexPath)
+        cell.textLabel?.text = library.name
+        if libraries?.contains(library) ?? false {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
+        }
 
         return cell
     }
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
     // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView,
+                            commit editingStyle: UITableViewCell.EditingStyle,
+                            forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            let library = fetchedResultsController.object(at: indexPath)
+            libraryController.delete(library: library, context: CoreDataStack.shared.mainContext)
+        }
     }
-    */
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
 
+        let library = fetchedResultsController.object(at: indexPath)
+        if libraries?.contains(library) ?? false {
+            libraries?.remove(library)
+        } else {
+            libraries?.add(library)
+        }
+
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     // MARK: Actions
 

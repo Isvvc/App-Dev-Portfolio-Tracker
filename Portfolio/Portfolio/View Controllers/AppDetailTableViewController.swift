@@ -18,7 +18,9 @@ class AppDetailTableViewController: UITableViewController {
             ratings = app?.userRatingCount
             bundleID = app?.id
             myContributions = app?.contributions
-            libraries = app?.mutableSetValue(forKey: "apps")
+            if let libraries = app?.mutableSetValue(forKey: "libraries") {
+                self.libraries = libraries
+            }
         }
     }
 
@@ -26,7 +28,12 @@ class AppDetailTableViewController: UITableViewController {
     var ratings: Int16?
     var bundleID: String?
     var myContributions: String?
-    var libraries: NSMutableSet?
+    var libraries: NSMutableSet = NSMutableSet()
+    var librariesArray: [Library] {
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        let array = libraries.sortedArray(using: [sortDescriptor])
+        return array.compactMap({ $0 as? Library })
+    }
 
     var editMode: Bool = true
     var showMyContributions: Bool {
@@ -55,6 +62,7 @@ class AppDetailTableViewController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        tableView.reloadData()
 
         // This is to make sure the text views have their height automatically adjusted
         tableView.beginUpdates()
@@ -70,9 +78,9 @@ class AppDetailTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == (showMyContributions ? 4 : 3) {
             if editMode {
-                return 2
+                return librariesArray.count + 1
             } else {
-                return 1
+                return librariesArray.count
             }
         }
 
@@ -101,7 +109,7 @@ class AppDetailTableViewController: UITableViewController {
         case 1:
             cellIdentifier = "LinkCell"
         case showMyContributions ? 4 : 3:
-            if editMode && indexPath.row == 1 {
+            if editMode && indexPath.row == librariesArray.count {
                 cellIdentifier = "SelectLibraryCell"
             } else {
                 cellIdentifier = "LibraryCell"
@@ -133,6 +141,11 @@ class AppDetailTableViewController: UITableViewController {
                 cell.textView.tag = 2
                 textViewDidEndEditing(cell.textView)
                 contributionsTextView = cell.textView
+            }
+        } else {
+            if indexPath.row != librariesArray.count || !editMode {
+                let library = librariesArray[indexPath.row]
+                cell.textLabel?.text = library.name
             }
         }
 
@@ -269,6 +282,14 @@ class AppDetailTableViewController: UITableViewController {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
                                                                 target: self,
                                                                 action: #selector(toggleEditMode))
+        }
+    }
+
+    // MARK: Navigation
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let librariesVC = segue.destination as? LibrariesTableViewController {
+            librariesVC.libraries = self.libraries
         }
     }
 
