@@ -156,7 +156,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="136.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kFn-5k-nTB">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kFn-5k-nTB">
                                             <rect key="frame" x="20" y="4" width="128" height="128"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="128" id="ue7-ks-MWB"/>
@@ -169,19 +169,28 @@
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hBi-GD-azm">
+                                            <rect key="frame" x="20" y="4" width="128" height="128"/>
+                                            <state key="normal" title="Select Artwork"/>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="BaY-YL-TYg" firstAttribute="leading" secondItem="kFn-5k-nTB" secondAttribute="trailing" constant="8" id="9Be-kc-OYE"/>
                                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="kFn-5k-nTB" secondAttribute="bottom" constant="4" id="KFr-Ge-Uk4"/>
                                         <constraint firstItem="BaY-YL-TYg" firstAttribute="trailing" secondItem="Hjr-CS-kQR" secondAttribute="trailingMargin" id="L5P-PK-8K2"/>
                                         <constraint firstItem="kFn-5k-nTB" firstAttribute="top" secondItem="Hjr-CS-kQR" secondAttribute="top" constant="4" id="aBW-0O-LvM"/>
+                                        <constraint firstItem="hBi-GD-azm" firstAttribute="top" secondItem="kFn-5k-nTB" secondAttribute="top" id="bef-vY-qx3"/>
                                         <constraint firstItem="kFn-5k-nTB" firstAttribute="leading" secondItem="Hjr-CS-kQR" secondAttribute="leadingMargin" id="dK4-j6-s7K"/>
+                                        <constraint firstItem="hBi-GD-azm" firstAttribute="trailing" secondItem="kFn-5k-nTB" secondAttribute="trailing" id="k7u-fs-mLo"/>
                                         <constraint firstItem="BaY-YL-TYg" firstAttribute="top" secondItem="Hjr-CS-kQR" secondAttribute="top" id="kNv-J2-Lcg"/>
+                                        <constraint firstItem="hBi-GD-azm" firstAttribute="bottom" secondItem="kFn-5k-nTB" secondAttribute="bottom" id="nD4-ZE-il6"/>
+                                        <constraint firstItem="hBi-GD-azm" firstAttribute="leading" secondItem="kFn-5k-nTB" secondAttribute="leading" id="nk0-fh-IRL"/>
                                         <constraint firstAttribute="bottom" secondItem="BaY-YL-TYg" secondAttribute="bottom" id="zH9-Ig-kZU"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="artworkImageView" destination="kFn-5k-nTB" id="qzA-Me-vHu"/>
+                                    <outlet property="selectPhotoButton" destination="hBi-GD-azm" id="VgV-0Y-yfZ"/>
                                     <outlet property="textView" destination="BaY-YL-TYg" id="bFP-hr-dXi"/>
                                 </connections>
                             </tableViewCell>

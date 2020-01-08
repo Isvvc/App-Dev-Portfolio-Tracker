@@ -28,6 +28,7 @@ class AppDetailTableViewController: UITableViewController {
     var ratings: Int16?
     var bundleID: String?
     var myContributions: String?
+    var artwork: UIImage?
     var libraries: NSMutableSet = NSMutableSet()
     var librariesArray: [Library] {
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
@@ -47,6 +48,7 @@ class AppDetailTableViewController: UITableViewController {
     var descriptionTextView: UITextView?
     var ratingsButton: UIButton?
     var contributionsTextView: UITextView?
+    var selectPhotoButton: UIButton?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,6 +117,8 @@ class AppDetailTableViewController: UITableViewController {
             textViewDidEndEditing(cell.textView)
             nameTextView = cell.textView
             artworkImageView = cell.artworkImageView
+            selectPhotoButton = cell.selectPhotoButton
+            selectPhotoButton?.addTarget(self, action: #selector(selectArtwork), for: .touchUpInside)
             returnCell = cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "LinkCell", for: indexPath)
@@ -289,6 +293,7 @@ class AppDetailTableViewController: UITableViewController {
                                                                 action: #selector(save))
             ageRatingButton?.isEnabled = true
             ratingsButton?.isEnabled = true
+            selectPhotoButton?.isHidden = false
         } else {
             appStoreButton?.setTitle("Open in App Store", for: .normal)
             appStoreButton?.removeTarget(self, action: #selector(updateAppStoreLink), for: .touchUpInside)
@@ -298,6 +303,7 @@ class AppDetailTableViewController: UITableViewController {
                                                                 action: #selector(toggleEditMode))
             ageRatingButton?.isEnabled = false
             ratingsButton?.isEnabled = false
+            selectPhotoButton?.isHidden = true
         }
     }
 
@@ -349,6 +355,23 @@ class AppDetailTableViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
 
+    @objc private func selectArtwork() {
+        presentImagePicker()
+    }
+
+    private func presentImagePicker() {
+        guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
+            NSLog("Photo library is not available")
+            return
+        }
+
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = self
+
+        present(imagePicker, animated: true, completion: nil)
+    }
+
     // MARK: Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -394,5 +417,21 @@ extension AppDetailTableViewController: UITextViewDelegate {
             textView.text = placeholderText
             textView.textColor = UIColor.lightGray
         }
+    }
+}
+
+extension AppDetailTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        if let image = info[.originalImage] as? UIImage {
+            artwork = image
+            artworkImageView?.image = image
+        }
+
+        picker.dismiss(animated: true, completion: nil)
     }
 }

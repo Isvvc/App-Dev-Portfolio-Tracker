@@ -12,6 +12,7 @@ class TitleTableViewCell: UITableViewCell {
 
     @IBOutlet weak var artworkImageView: UIImageView!
     @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var selectPhotoButton: UIButton!
 
     override func awakeFromNib() {
         super.awakeFromNib()
