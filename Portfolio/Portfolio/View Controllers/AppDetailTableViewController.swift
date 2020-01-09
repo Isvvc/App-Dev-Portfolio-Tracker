@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVKit
 
 class AppDetailTableViewController: UITableViewController {
 
@@ -33,6 +34,7 @@ class AppDetailTableViewController: UITableViewController {
     var bundleID: String?
     var myContributions: String?
     var artwork: UIImage?
+    var demoMovieURL: URL?
     var libraries: NSMutableSet = NSMutableSet()
     var librariesArray: [Library] {
         let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
@@ -54,6 +56,7 @@ class AppDetailTableViewController: UITableViewController {
     var ratingsButton: UIButton?
     var contributionsTextView: UITextView?
     var selectPhotoButton: UIButton?
+    var selectMovieButton: UIButton?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,6 +101,8 @@ class AppDetailTableViewController: UITableViewController {
             } else {
                 return librariesArray.count
             }
+        } else if section == 0 && (demoMovieURL != nil || editMode) {
+            return 2
         }
 
         return 1
@@ -121,22 +126,31 @@ class AppDetailTableViewController: UITableViewController {
 
         switch indexPath.section {
         case 0:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "TitleCell", for: indexPath)
-                as? TitleTableViewCell else { return UITableViewCell() }
-            cell.textView.delegate = self
-            cell.textView.tag = 0
-            if app == nil {
-                cell.textView.text = ""
+            if indexPath.row == 0 {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: "TitleCell", for: indexPath)
+                    as? TitleTableViewCell else { return UITableViewCell() }
+                cell.textView.delegate = self
+                cell.textView.tag = 0
+                if app == nil {
+                    cell.textView.text = ""
+                }
+                textViewDidEndEditing(cell.textView)
+                nameTextView = cell.textView
+                artworkImageView = cell.artworkImageView
+                cell.selectPhotoButton.addTarget(self, action: #selector(selectArtwork), for: .touchUpInside)
+                selectPhotoButton = cell.selectPhotoButton
+                returnCell = cell
+            } else {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: "LinkCell", for: indexPath)
+                    as? LinkTableViewCell else { return UITableViewCell() }
+                cell.ageRating.isHidden = true
+                selectMovieButton = cell.appStoreButton
+                cell.ratingsButton.isHidden = true
+                returnCell = cell
             }
-            textViewDidEndEditing(cell.textView)
-            nameTextView = cell.textView
-            artworkImageView = cell.artworkImageView
-            selectPhotoButton = cell.selectPhotoButton
-            selectPhotoButton?.addTarget(self, action: #selector(selectArtwork), for: .touchUpInside)
-            returnCell = cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "LinkCell", for: indexPath)
-            as? LinkTableViewCell else { return UITableViewCell() }
+                as? LinkTableViewCell else { return UITableViewCell() }
             ageRatingButton = cell.ageRating
             ageRatingButton?.addTarget(self, action: #selector(setAgeRating), for: .touchUpInside)
             appStoreButton = cell.appStoreButton
@@ -307,6 +321,9 @@ class AppDetailTableViewController: UITableViewController {
             appStoreButton?.setTitle("Tap to edit app store link", for: .normal)
             appStoreButton?.removeTarget(self, action: #selector(openAppStore), for: .touchUpInside)
             appStoreButton?.addTarget(self, action: #selector(updateAppStoreLink), for: .touchUpInside)
+            selectMovieButton?.setTitle("Select Demo Video", for: .normal)
+            selectMovieButton?.removeTarget(self, action: #selector(watchDemoMovie), for: .touchUpInside)
+            selectMovieButton?.addTarget(self, action: #selector(selectMovie), for: .touchUpInside)
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save,
                                                                 target: self,
                                                                 action: #selector(save))
@@ -317,6 +334,9 @@ class AppDetailTableViewController: UITableViewController {
             appStoreButton?.setTitle("Open in App Store", for: .normal)
             appStoreButton?.removeTarget(self, action: #selector(updateAppStoreLink), for: .touchUpInside)
             appStoreButton?.addTarget(self, action: #selector(openAppStore), for: .touchUpInside)
+            selectMovieButton?.setTitle("Watch Demo Video", for: .normal)
+            selectMovieButton?.removeTarget(self, action: #selector(selectMovie), for: .touchUpInside)
+            selectMovieButton?.addTarget(self, action: #selector(watchDemoMovie), for: .touchUpInside)
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
                                                                 target: self,
                                                                 action: #selector(toggleEditMode))
@@ -378,7 +398,26 @@ class AppDetailTableViewController: UITableViewController {
         presentImagePicker()
     }
 
-    private func presentImagePicker() {
+    @objc private func selectMovie() {
+        presentImagePicker(video: true)
+    }
+    
+    @objc private func watchDemoMovie() {
+        if let videoURL = demoMovieURL {
+
+            let player = AVPlayer(url: videoURL)
+//            demoMovie = AVMovie(url: videoURL)
+
+            let playerViewController = AVPlayerViewController()
+            playerViewController.player = player
+
+            present(playerViewController, animated: true) {
+                playerViewController.player!.play()
+            }
+        }
+    }
+
+    private func presentImagePicker(video: Bool = true) {
         guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
             NSLog("Photo library is not available")
             return
@@ -387,6 +426,9 @@ class AppDetailTableViewController: UITableViewController {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .photoLibrary
         imagePicker.delegate = self
+        if video {
+            imagePicker.mediaTypes = ["public.movie"]
+        }
 
         present(imagePicker, animated: true, completion: nil)
     }
@@ -446,7 +488,9 @@ extension AppDetailTableViewController: UIImagePickerControllerDelegate, UINavig
 
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        if let image = info[.originalImage] as? UIImage {
+        if let movieURL = info[.mediaURL] as? URL {
+            demoMovieURL = movieURL
+        } else if let image = info[.editedImage] as? UIImage {
             artwork = image
             artworkImageView?.image = image
         }
