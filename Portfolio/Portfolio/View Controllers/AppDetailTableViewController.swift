@@ -10,7 +10,7 @@ import UIKit
 import AVKit
 
 class AppDetailTableViewController: UITableViewController {
-    
+
     // MARK: Properties
     var appController: AppController?
     var app: App? {
@@ -440,7 +440,7 @@ class AppDetailTableViewController: UITableViewController {
         }
     }
 
-    private func presentImagePicker(video: Bool = true) {
+    private func presentImagePicker(video: Bool = false) {
         guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
             NSLog("Photo library is not available")
             return

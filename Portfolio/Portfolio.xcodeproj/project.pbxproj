@@ -67,6 +67,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5909F4BE23C7C5EA00103720 /* Model Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				59F49D6B23C3C31F00ED5997 /* AppController.swift */,
+			);
+			path = "Model Controllers";
+			sourceTree = "<group>";
+		};
 		596705D123C536B900304CB8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +107,7 @@
 			children = (
 				59F49D4823C3B43600ED5997 /* AppDelegate.swift */,
 				59F49D4A23C3B43600ED5997 /* SceneDelegate.swift */,
+				5909F4BE23C7C5EA00103720 /* Model Controllers */,
 				596705D123C536B900304CB8 /* Views */,
 				59F49D6823C3C26F00ED5997 /* Model */,
 				59F49D6223C3B7B600ED5997 /* Networking */,
@@ -137,7 +146,6 @@
 				596705CC23C50FF800304CB8 /* Portfolio+Convenience.swift */,
 				596705CA23C50F9900304CB8 /* CoreDataStack.swift */,
 				59F49D6923C3C28E00ED5997 /* AppRepresentation.swift */,
-				59F49D6B23C3C31F00ED5997 /* AppController.swift */,
 				594F448023C6759300520ED2 /* LibraryController.swift */,
 			);
 			path = Model;

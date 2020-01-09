@@ -154,6 +154,7 @@ class AppController {
     func delete(app: App, context: NSManagedObjectContext) {
         if let bundleID = app.id {
             deleteImage(forKey: bundleID)
+            deleteImage(forKey: bundleID, movie: true)
         }
         context.delete(app)
         CoreDataStack.shared.save(context: context)
@@ -215,8 +216,8 @@ class AppController {
         }
     }
 
-    func deleteImage(forKey key: String) {
-        guard let filePath = filePath(forKey: key) else { return }
+    func deleteImage(forKey key: String, movie: Bool = false) {
+        guard let filePath = filePath(forKey: key, movie: movie) else { return }
         do {
             try FileManager.default.removeItem(at: filePath)
         } catch {
