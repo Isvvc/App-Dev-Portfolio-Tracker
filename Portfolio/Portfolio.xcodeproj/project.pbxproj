@@ -18,6 +18,7 @@
 		59A8021023C7CEFC007FECA9 /* ScreenshotsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A8020F23C7CEFC007FECA9 /* ScreenshotsTableViewController.swift */; };
 		59A8021223C7D397007FECA9 /* ScreenshotTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A8021123C7D397007FECA9 /* ScreenshotTableViewCell.swift */; };
 		59A8022223C7E240007FECA9 /* LibraryControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A8022123C7E240007FECA9 /* LibraryControllerTests.swift */; };
+		59A8022423C7E795007FECA9 /* AppControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A8022323C7E795007FECA9 /* AppControllerTests.swift */; };
 		59DAFFBF23C69B340031C078 /* AppTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DAFFBE23C69B340031C078 /* AppTableViewCell.swift */; };
 		59F49D4923C3B43600ED5997 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F49D4823C3B43600ED5997 /* AppDelegate.swift */; };
 		59F49D4B23C3B43600ED5997 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F49D4A23C3B43600ED5997 /* SceneDelegate.swift */; };
@@ -57,6 +58,7 @@
 		59A8021723C7E17A007FECA9 /* PortfolioTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PortfolioTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		59A8021B23C7E17A007FECA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59A8022123C7E240007FECA9 /* LibraryControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryControllerTests.swift; sourceTree = "<group>"; };
+		59A8022323C7E795007FECA9 /* AppControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppControllerTests.swift; sourceTree = "<group>"; };
 		59DAFFBE23C69B340031C078 /* AppTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTableViewCell.swift; sourceTree = "<group>"; };
 		59F49D4523C3B43600ED5997 /* Portfolio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Portfolio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59F49D4823C3B43600ED5997 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -116,8 +118,9 @@
 		59A8021823C7E17A007FECA9 /* PortfolioTests */ = {
 			isa = PBXGroup;
 			children = (
-				59A8022123C7E240007FECA9 /* LibraryControllerTests.swift */,
 				59A8021B23C7E17A007FECA9 /* Info.plist */,
+				59A8022123C7E240007FECA9 /* LibraryControllerTests.swift */,
+				59A8022323C7E795007FECA9 /* AppControllerTests.swift */,
 			);
 			path = PortfolioTests;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				59A8022223C7E240007FECA9 /* LibraryControllerTests.swift in Sources */,
+				59A8022423C7E795007FECA9 /* AppControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
