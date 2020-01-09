@@ -86,4 +86,18 @@ class AppControllerTests: XCTestCase {
         XCTAssertNotNil(appRepresentation.artwork)
     }
 
+    func testAppSearch() {
+        let appController = AppController()
+        let expectation = self.expectation(description: "Search")
+
+        appController.search(appName: "Pages") { appRepresentations, error in
+            XCTAssertNil(error)
+            XCTAssertNotNil(appRepresentations)
+            XCTAssertTrue(appRepresentations.contains(where: { $0.bundleID == "com.apple.Pages" }))
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 10, handler: nil)
+    }
+
 }
