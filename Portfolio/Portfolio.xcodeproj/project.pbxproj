@@ -16,6 +16,7 @@
 		596705D523C5370C00304CB8 /* LinkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596705D423C5370C00304CB8 /* LinkTableViewCell.swift */; };
 		596705D723C5371F00304CB8 /* TextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596705D623C5371F00304CB8 /* TextViewTableViewCell.swift */; };
 		59A8021023C7CEFC007FECA9 /* ScreenshotsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A8020F23C7CEFC007FECA9 /* ScreenshotsTableViewController.swift */; };
+		59A8021223C7D397007FECA9 /* ScreenshotTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A8021123C7D397007FECA9 /* ScreenshotTableViewCell.swift */; };
 		59DAFFBF23C69B340031C078 /* AppTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DAFFBE23C69B340031C078 /* AppTableViewCell.swift */; };
 		59F49D4923C3B43600ED5997 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F49D4823C3B43600ED5997 /* AppDelegate.swift */; };
 		59F49D4B23C3B43600ED5997 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F49D4A23C3B43600ED5997 /* SceneDelegate.swift */; };
@@ -41,6 +42,7 @@
 		596705D423C5370C00304CB8 /* LinkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkTableViewCell.swift; sourceTree = "<group>"; };
 		596705D623C5371F00304CB8 /* TextViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewTableViewCell.swift; sourceTree = "<group>"; };
 		59A8020F23C7CEFC007FECA9 /* ScreenshotsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotsTableViewController.swift; sourceTree = "<group>"; };
+		59A8021123C7D397007FECA9 /* ScreenshotTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotTableViewCell.swift; sourceTree = "<group>"; };
 		59DAFFBE23C69B340031C078 /* AppTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTableViewCell.swift; sourceTree = "<group>"; };
 		59F49D4523C3B43600ED5997 /* Portfolio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Portfolio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59F49D4823C3B43600ED5997 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 				596705D423C5370C00304CB8 /* LinkTableViewCell.swift */,
 				596705D623C5371F00304CB8 /* TextViewTableViewCell.swift */,
 				59DAFFBE23C69B340031C078 /* AppTableViewCell.swift */,
+				59A8021123C7D397007FECA9 /* ScreenshotTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -265,6 +268,7 @@
 				594F447F23C674A700520ED2 /* LibrariesTableViewController.swift in Sources */,
 				59F49D4B23C3B43600ED5997 /* SceneDelegate.swift in Sources */,
 				59F49D6123C3B66E00ED5997 /* AppSearchTableViewController.swift in Sources */,
+				59A8021223C7D397007FECA9 /* ScreenshotTableViewCell.swift in Sources */,
 				594F448123C6759300520ED2 /* LibraryController.swift in Sources */,
 				596705D523C5370C00304CB8 /* LinkTableViewCell.swift in Sources */,
 				596705CF23C52E6700304CB8 /* AppDetailTableViewController.swift in Sources */,

@@ -29,13 +29,14 @@ class ScreenshotsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ScreenshotCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ScreenshotCell", for: indexPath)
+            as? ScreenshotTableViewCell else { return UITableViewCell() }
 
         if let screenshot = screenshots?[indexPath.row],
             let url = screenshot.url,
             let imageData = try? Data(contentsOf: url) {
             let image = UIImage(data: imageData)
-            cell.imageView?.image = image
+            cell.screenshotImageView.image = image
         }
 
         return cell
