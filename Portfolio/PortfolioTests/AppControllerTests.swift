@@ -12,6 +12,7 @@ import CoreData
 
 class AppControllerTests: XCTestCase {
 
+    //swiftlint:disable force_try
     func testCreateApp() {
         let appController = AppController()
         let context = CoreDataStack.shared.mainContext
@@ -22,7 +23,7 @@ class AppControllerTests: XCTestCase {
 
         let name = "TEST CREATE APP"
         let description = "TEST APP DESCRIPTION"
-        let bundleID = "test.test.app"
+        let bundleID = "test.app.create"
         appController.create(appNamed: name, description: description, bundleID: bundleID, context: context)
 
         let newFetchRequest: NSFetchRequest<App> = App.fetchRequest()
@@ -39,6 +40,29 @@ class AppControllerTests: XCTestCase {
         XCTAssertEqual(difference.first!.id, bundleID)
 
         appController.delete(app: difference.first!, context: context)
+    }
+
+    func testDeleteApp() {
+        let appController = AppController()
+        let context = CoreDataStack.shared.mainContext
+
+        let name = "TEST DELETE APP"
+        let description = "TEST APP DESCRIPTION"
+        let bundleID = "test.app.delete"
+
+        let initialFetchRequest: NSFetchRequest<App> = App.fetchRequest()
+        let initialApps = try! context.fetch(initialFetchRequest)
+        XCTAssertFalse(initialApps.contains(where: { $0.name == name }))
+
+        appController.create(appNamed: name, description: description, bundleID: bundleID, context: context)
+
+        let newFetchRequest: NSFetchRequest<App> = App.fetchRequest()
+        let newApps = try! context.fetch(newFetchRequest)
+        XCTAssertTrue(newApps.contains(where: { $0.name == name }))
+
+        let testApp = newApps.first(where: { $0.id == bundleID })!
+        appController.delete(app: testApp, context: context)
+        XCTAssertFalse(initialApps.contains(where: { $0.name == name }))
     }
 
 }
