@@ -106,7 +106,10 @@ class AppDetailTableViewController: UITableViewController {
             } else {
                 return librariesArray.count
             }
-        } else if section == 0 && (demoMovieURL != nil || editMode) {
+        } else if section == 0 {
+            if demoMovieURL != nil || editMode {
+                return 3
+            }
             return 2
         }
 
@@ -145,6 +148,8 @@ class AppDetailTableViewController: UITableViewController {
                 cell.selectPhotoButton.addTarget(self, action: #selector(selectArtwork), for: .touchUpInside)
                 selectPhotoButton = cell.selectPhotoButton
                 returnCell = cell
+            } else if indexPath.row == 1 {
+                returnCell = tableView.dequeueReusableCell(withIdentifier: "ScreenshotsCell", for: indexPath)
             } else {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: "LinkCell", for: indexPath)
                     as? LinkTableViewCell else { return UITableViewCell() }
@@ -461,6 +466,12 @@ class AppDetailTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let librariesVC = segue.destination as? LibrariesTableViewController {
             librariesVC.libraries = self.libraries
+        } else if let screenshotsVC = segue.destination as? ScreenshotsTableViewController,
+            let screenshots = app?.screeenshots {
+            let screenshotsArray = screenshots.sortedArray(using: []).compactMap({ $0 as? Screenshot })
+            screenshotsVC.screenshots = screenshotsArray
+            screenshotsVC.appController = appController
+            screenshotsVC.app = app
         }
     }
 
@@ -502,6 +513,8 @@ extension AppDetailTableViewController: UITextViewDelegate {
     }
 }
 
+// MARK: Image picker controller delegate
+
 extension AppDetailTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
@@ -511,7 +524,7 @@ extension AppDetailTableViewController: UIImagePickerControllerDelegate, UINavig
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let movieURL = info[.mediaURL] as? URL {
             demoMovieURL = movieURL
-        } else if let image = info[.editedImage] as? UIImage {
+        } else if let image = info[.originalImage] as? UIImage {
             artwork = image
             artworkImageView?.image = image
         }

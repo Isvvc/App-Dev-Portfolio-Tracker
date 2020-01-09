@@ -52,3 +52,11 @@ extension Library {
         self.name = name
     }
 }
+
+extension Screenshot {
+    @discardableResult convenience init(app: App, url: URL, context: NSManagedObjectContext) {
+        self.init(context: context)
+        self.app = app
+        self.url = url
+    }
+}
