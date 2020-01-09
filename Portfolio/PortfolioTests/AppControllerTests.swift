@@ -65,4 +65,25 @@ class AppControllerTests: XCTestCase {
         XCTAssertFalse(initialApps.contains(where: { $0.name == name }))
     }
 
+    func testFetchArtwork() {
+        let appController = AppController()
+        let appRepresentation = AppRepresentation(
+            name: "TEST APP",
+            bundleID: "test.app.fetch",
+            //swiftlint:disable line_length
+            artworkURL: URL(string: "https://is2-ssl.mzstatic.com/image/thumb/Purple113/v4/15/39/16/15391683-ff50-2a3f-1418-c76d20a24986/source/512x512bb.jpg")!,
+            //swiftlint:enable line_length
+            ageRating: nil,
+            description: "TEST APP DESCRIPTION",
+            appStoreURL: nil,
+            userRatingCount: nil,
+            screenshots: nil)
+        XCTAssertNil(appRepresentation.artwork)
+
+        expectation(forNotification: .loadAppArtwork, object: nil, handler: nil)
+        appController.fetchArtwork(app: appRepresentation, index: 0)
+        waitForExpectations(timeout: 5, handler: nil)
+        XCTAssertNotNil(appRepresentation.artwork)
+    }
+
 }
