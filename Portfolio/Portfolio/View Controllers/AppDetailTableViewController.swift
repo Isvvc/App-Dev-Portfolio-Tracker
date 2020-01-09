@@ -120,7 +120,7 @@ class AppDetailTableViewController: UITableViewController {
         case showMyContributions ? 3 : -1:
             return "My Contributions"
         case showMyContributions ? 4 : 3:
-            return "API/Libraries Used"
+            return libraries.count > 0 ? "API/Libraries Used" : nil
         default:
             return nil
         }
