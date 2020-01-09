@@ -24,6 +24,10 @@ class AppDetailTableViewController: UITableViewController {
             }
             if let bundleID = app?.id {
                 artwork = appController?.retrieveImage(forKey: bundleID)
+                if let movieURL = appController?.filePath(forKey: bundleID, movie: true),
+                    FileManager.default.fileExists(atPath: movieURL.path) {
+                    demoMovieURL = movieURL
+                }
             }
             deleteArtworkOnExit = false
         }
@@ -281,6 +285,7 @@ class AppDetailTableViewController: UITableViewController {
                                   appStoreURL: appStoreURL,
                                   bundleID: bundleID,
                                   userRatingCount: ratings,
+                                  movieURL: demoMovieURL,
                                   contributions: myContributions,
                                   context: context)
         } else {
@@ -292,6 +297,7 @@ class AppDetailTableViewController: UITableViewController {
                                   bundleID: bundleID,
                                   userRatingCount: ratings,
                                   artwork: nil,
+                                  movieURL: demoMovieURL,
                                   contributions: myContributions,
                                   libraries: libraries,
                                   context: context)
@@ -401,12 +407,11 @@ class AppDetailTableViewController: UITableViewController {
     @objc private func selectMovie() {
         presentImagePicker(video: true)
     }
-    
+
     @objc private func watchDemoMovie() {
         if let videoURL = demoMovieURL {
 
             let player = AVPlayer(url: videoURL)
-//            demoMovie = AVMovie(url: videoURL)
 
             let playerViewController = AVPlayerViewController()
             playerViewController.player = player

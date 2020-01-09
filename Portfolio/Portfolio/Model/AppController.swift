@@ -124,6 +124,7 @@ class AppController {
                 bundleID: String,
                 userRatingCount: Int16? = nil,
                 artwork: UIImage? = nil,
+                movieURL: URL? = nil,
                 contributions: String? = nil,
                 libraries: NSSet? = nil,
                 context: NSManagedObjectContext) {
@@ -144,6 +145,10 @@ class AppController {
         } else if app.artworkURL != nil {
             fetchAndStoreArtwork(app: app)
         }
+
+        if let movieURL = movieURL {
+            store(movieFromURL: movieURL, forKey: bundleID)
+        }
     }
 
     func delete(app: App, context: NSManagedObjectContext) {
@@ -161,6 +166,7 @@ class AppController {
                 appStoreURL: URL? = nil,
                 bundleID: String,
                 userRatingCount: Int16? = nil,
+                movieURL: URL? = nil,
                 contributions: String? = nil,
                 context: NSManagedObjectContext) {
         app.name = name
@@ -171,17 +177,22 @@ class AppController {
         app.userRatingCount = userRatingCount ?? 0
         app.contributions = contributions
         CoreDataStack.shared.save(context: context)
+        if let movieURL = movieURL {
+            store(movieFromURL: movieURL, forKey: bundleID)
+        }
     }
 
     // MARK: Local Storage
 
-    private func filePath(forKey key: String) -> URL? {
+    func filePath(forKey key: String, movie: Bool = false) -> URL? {
         let fileManager = FileManager.default
         guard let documentURL = fileManager
             .urls(for: .documentDirectory,
                   in: FileManager.SearchPathDomainMask.userDomainMask).first else { return nil }
 
-        return documentURL.appendingPathComponent(key + ".png")
+        var fileName = key
+        fileName += movie ? ".mov" : ".png"
+        return documentURL.appendingPathComponent(fileName)
     }
 
     func store(_ image: UIImage, forKey key: String) {
@@ -189,6 +200,16 @@ class AppController {
             let filePath = filePath(forKey: key) else { return }
         do {
             try png.write(to: filePath, options: .atomic)
+        } catch {
+            NSLog("Error saving image: \(error)")
+        }
+    }
+
+    func store(movieFromURL movieURL: URL, forKey key: String) {
+        guard let movieData = try? Data(contentsOf: movieURL),
+            let filePath = filePath(forKey: key, movie: true) else { return }
+        do {
+            try movieData.write(to: filePath, options: .atomic)
         } catch {
             NSLog("Error saving image: \(error)")
         }

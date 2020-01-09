@@ -12,7 +12,7 @@ class AppTableViewCell: UITableViewCell {
 
     @IBOutlet weak var artworkImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
