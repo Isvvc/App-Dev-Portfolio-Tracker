@@ -10,7 +10,7 @@ import UIKit
 import AVKit
 
 class AppDetailTableViewController: UITableViewController {
-
+    
     // MARK: Properties
     var appController: AppController?
     var app: App? {
@@ -46,6 +46,7 @@ class AppDetailTableViewController: UITableViewController {
         return array.compactMap({ $0 as? Library })
     }
 
+    var appLoaded: Bool = false
     var deleteArtworkOnExit = true
     var editMode: Bool = true
     var showMyContributions: Bool {
@@ -195,15 +196,27 @@ class AppDetailTableViewController: UITableViewController {
         return returnCell
     }
 
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if editMode,
+            indexPath.section == 2
+                || indexPath.section == 3 {
+            return 144
+        }
+
+        return UITableView.automaticDimension
+    }
+
     override func tableView(_ tableView: UITableView,
                             willDisplay cell: UITableViewCell,
                             forRowAt indexPath: IndexPath) {
-        if let lastVisibleIndexPath = tableView.indexPathsForVisibleRows?.last,
+        if !appLoaded,
+            let lastVisibleIndexPath = tableView.indexPathsForVisibleRows?.last,
             indexPath == lastVisibleIndexPath {
             loadAppInfo()
             updateEditMode()
             tableView.beginUpdates()
             tableView.endUpdates()
+            appLoaded = true
         }
     }
 
@@ -314,6 +327,9 @@ class AppDetailTableViewController: UITableViewController {
 
     @objc private func toggleEditMode() {
         editMode.toggle()
+        descriptionTextView?.isScrollEnabled = editMode
+        contributionsTextView?.isScrollEnabled = editMode
+        appLoaded = false
         tableView.reloadData()
         updateEditMode()
     }
@@ -321,7 +337,9 @@ class AppDetailTableViewController: UITableViewController {
     private func updateEditMode() {
         nameTextView?.isEditable = editMode
         descriptionTextView?.isEditable = editMode
+        descriptionTextView?.isScrollEnabled = editMode
         contributionsTextView?.isEditable = editMode
+        contributionsTextView?.isScrollEnabled = editMode
 
         if editMode {
             appStoreButton?.setTitle("Tap to edit app store link", for: .normal)
@@ -453,8 +471,6 @@ class AppDetailTableViewController: UITableViewController {
 extension AppDetailTableViewController: UITextViewDelegate {
 
     func textViewDidChange(_ textView: UITextView) {
-        tableView.beginUpdates()
-        tableView.endUpdates()
         if textView.tag == 2 {
             myContributions = textView.text
         }
