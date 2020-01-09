@@ -71,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				59F49D6B23C3C31F00ED5997 /* AppController.swift */,
+				594F448023C6759300520ED2 /* LibraryController.swift */,
 			);
 			path = "Model Controllers";
 			sourceTree = "<group>";
@@ -146,7 +147,6 @@
 				596705CC23C50FF800304CB8 /* Portfolio+Convenience.swift */,
 				596705CA23C50F9900304CB8 /* CoreDataStack.swift */,
 				59F49D6923C3C28E00ED5997 /* AppRepresentation.swift */,
-				594F448023C6759300520ED2 /* LibraryController.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
