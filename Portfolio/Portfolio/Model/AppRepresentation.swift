@@ -16,6 +16,7 @@ class AppRepresentation {
     let appDescription: String
     let appStoreURL: URL?
     let userRatingCount: Int16?
+    let screenshots: [URL]?
 
     var artwork: UIImage?
 
@@ -25,7 +26,8 @@ class AppRepresentation {
          ageRating: String?,
          description: String,
          appStoreURL: URL?,
-         userRatingCount: Int16?) {
+         userRatingCount: Int16?,
+         screenshots: [URL]?) {
         self.name = name
         self.bundleID = bundleID
         self.artworkURL = artworkURL
@@ -33,5 +35,6 @@ class AppRepresentation {
         self.appDescription = description
         self.appStoreURL = appStoreURL
         self.userRatingCount = userRatingCount
+        self.screenshots = screenshots
     }
 }

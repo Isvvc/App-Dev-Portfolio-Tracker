@@ -46,13 +46,17 @@ class AppController {
                         let appStoreURL = appJSON["trackViewUrl"].url,
                         let userRatingCount = appJSON["userRatingCount"].int16 else { continue }
 
+                    let screenshotsJSON = appJSON["screenshotUrls"].array
+                    let screenshots = screenshotsJSON?.compactMap({ $0.url })
+
                     let app = AppRepresentation(name: name,
                                                 bundleID: bundleID,
                                                 artworkURL: artworkURL,
                                                 ageRating: ageRating,
                                                 description: description,
                                                 appStoreURL: appStoreURL,
-                                                userRatingCount: userRatingCount)
+                                                userRatingCount: userRatingCount,
+                                                screenshots: screenshots)
 
                     self.fetchArtwork(app: app, index: apps.count)
 
@@ -109,7 +113,10 @@ class AppController {
                 if let artwork = representation.artwork {
                     store(artwork, forKey: representation.bundleID)
                 }
-                App(representation: representation, context: context)
+                let app = App(representation: representation, context: context)
+                for screenshot in representation.screenshots ?? [] {
+                    Screenshot(app: app, url: screenshot, context: context)
+                }
             }
         }
 

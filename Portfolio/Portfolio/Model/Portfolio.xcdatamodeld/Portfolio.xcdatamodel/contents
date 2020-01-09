@@ -10,13 +10,19 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="userRatingCount" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="libraries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Library" inverseName="apps" inverseEntity="Library"/>
+        <relationship name="screeenshots" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Screenshot" inverseName="app" inverseEntity="Screenshot"/>
     </entity>
     <entity name="Library" representedClassName="Library" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="apps" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="App" inverseName="libraries" inverseEntity="App"/>
     </entity>
+    <entity name="Screenshot" representedClassName="Screenshot" syncable="YES" codeGenerationType="class">
+        <attribute name="url" optional="YES" attributeType="URI"/>
+        <relationship name="app" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="App" inverseName="screeenshots" inverseEntity="App"/>
+    </entity>
     <elements>
-        <element name="App" positionX="-63" positionY="-18" width="128" height="178"/>
+        <element name="App" positionX="-63" positionY="-18" width="128" height="193"/>
         <element name="Library" positionX="-63" positionY="45" width="128" height="73"/>
+        <element name="Screenshot" positionX="-54" positionY="54" width="128" height="73"/>
     </elements>
 </model>
