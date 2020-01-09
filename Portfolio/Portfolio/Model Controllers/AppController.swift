@@ -190,6 +190,11 @@ class AppController {
         }
     }
 
+    func delete(screenshot: Screenshot, context: NSManagedObjectContext) {
+        context.delete(screenshot)
+        CoreDataStack.shared.save(context: context)
+    }
+
     // MARK: Local Storage
 
     func filePath(forKey key: String, movie: Bool = false) -> URL? {

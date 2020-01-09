@@ -30,7 +30,6 @@ class AppDetailTableViewController: UITableViewController {
                 }
             }
             deleteArtworkOnExit = false
-            print(app?.screeenshots)
         }
     }
 
@@ -471,6 +470,7 @@ class AppDetailTableViewController: UITableViewController {
             let screenshots = app?.screeenshots {
             let screenshotsArray = screenshots.sortedArray(using: []).compactMap({ $0 as? Screenshot })
             screenshotsVC.screenshots = screenshotsArray
+            screenshotsVC.appController = appController
         }
     }
 

@@ -9,9 +9,9 @@
 import UIKit
 
 class ScreenshotTableViewCell: UITableViewCell {
-    
+
     @IBOutlet weak var screenshotImageView: UIImageView!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
