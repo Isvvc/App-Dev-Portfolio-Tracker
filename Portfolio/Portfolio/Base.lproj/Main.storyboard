@@ -414,19 +414,34 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="ozk-nZ-H43">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u3y-aZ-DDP">
+                                    <rect key="frame" x="170" y="7" width="74" height="30"/>
+                                    <state key="normal" title="Add Image"/>
+                                    <connections>
+                                        <action selector="addImage:" destination="Y1G-Hc-pxR" eventType="touchUpInside" id="jp8-bn-CyN"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            <constraints>
+                                <constraint firstItem="u3y-aZ-DDP" firstAttribute="centerX" secondItem="ozk-nZ-H43" secondAttribute="centerX" id="A0g-kz-X9D"/>
+                                <constraint firstItem="u3y-aZ-DDP" firstAttribute="centerY" secondItem="ozk-nZ-H43" secondAttribute="centerY" id="SJg-Q9-nS7"/>
+                            </constraints>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ScreenshotCell" id="onV-7s-WYM" customClass="ScreenshotTableViewCell" customModule="Portfolio" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="528.5"/>
+                                <rect key="frame" x="0.0" y="72" width="414" height="16.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="onV-7s-WYM" id="jBT-Y3-dqh">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="528.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="16.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kpJ-EY-3K2">
-                                            <rect key="frame" x="8" y="8" width="398" height="512.5"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="512" placeholder="YES" id="ltU-q0-HGM"/>
-                                            </constraints>
+                                            <rect key="frame" x="8" y="8" width="398" height="0.5"/>
                                         </imageView>
                                     </subviews>
                                     <constraints>
@@ -447,6 +462,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Screenshots" id="79Z-Bg-4tX"/>
+                    <connections>
+                        <outlet property="addImageView" destination="ozk-nZ-H43" id="3vO-M3-Fq2"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fPg-os-us6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

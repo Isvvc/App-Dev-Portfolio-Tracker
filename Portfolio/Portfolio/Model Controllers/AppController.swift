@@ -195,6 +195,16 @@ class AppController {
         CoreDataStack.shared.save(context: context)
     }
 
+    @discardableResult func add(screenshot: UIImage, toApp app: App, context: NSManagedObjectContext) -> Screenshot? {
+        let uuid = UUID()
+        guard let filePath = filePath(forKey: uuid.uuidString) else { return nil }
+        store(screenshot, forKey: uuid.uuidString)
+
+        let screenshot = Screenshot(app: app, url: filePath, context: context)
+        CoreDataStack.shared.save(context: context)
+        return screenshot
+    }
+
     // MARK: Local Storage
 
     func filePath(forKey key: String, movie: Bool = false) -> URL? {

@@ -471,6 +471,7 @@ class AppDetailTableViewController: UITableViewController {
             let screenshotsArray = screenshots.sortedArray(using: []).compactMap({ $0 as? Screenshot })
             screenshotsVC.screenshots = screenshotsArray
             screenshotsVC.appController = appController
+            screenshotsVC.app = app
         }
     }
 
@@ -512,6 +513,8 @@ extension AppDetailTableViewController: UITextViewDelegate {
     }
 }
 
+// MARK: Image picker controller delegate
+
 extension AppDetailTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
@@ -521,7 +524,7 @@ extension AppDetailTableViewController: UIImagePickerControllerDelegate, UINavig
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let movieURL = info[.mediaURL] as? URL {
             demoMovieURL = movieURL
-        } else if let image = info[.editedImage] as? UIImage {
+        } else if let image = info[.originalImage] as? UIImage {
             artwork = image
             artworkImageView?.image = image
         }
