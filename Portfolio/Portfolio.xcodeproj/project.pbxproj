@@ -17,7 +17,7 @@
 		596705D723C5371F00304CB8 /* TextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 596705D623C5371F00304CB8 /* TextViewTableViewCell.swift */; };
 		59A8021023C7CEFC007FECA9 /* ScreenshotsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A8020F23C7CEFC007FECA9 /* ScreenshotsTableViewController.swift */; };
 		59A8021223C7D397007FECA9 /* ScreenshotTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A8021123C7D397007FECA9 /* ScreenshotTableViewCell.swift */; };
-		59A8021A23C7E17A007FECA9 /* PortfolioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A8021923C7E17A007FECA9 /* PortfolioTests.swift */; };
+		59A8022223C7E240007FECA9 /* LibraryControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59A8022123C7E240007FECA9 /* LibraryControllerTests.swift */; };
 		59DAFFBF23C69B340031C078 /* AppTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DAFFBE23C69B340031C078 /* AppTableViewCell.swift */; };
 		59F49D4923C3B43600ED5997 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F49D4823C3B43600ED5997 /* AppDelegate.swift */; };
 		59F49D4B23C3B43600ED5997 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F49D4A23C3B43600ED5997 /* SceneDelegate.swift */; };
@@ -55,8 +55,8 @@
 		59A8020F23C7CEFC007FECA9 /* ScreenshotsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotsTableViewController.swift; sourceTree = "<group>"; };
 		59A8021123C7D397007FECA9 /* ScreenshotTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotTableViewCell.swift; sourceTree = "<group>"; };
 		59A8021723C7E17A007FECA9 /* PortfolioTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PortfolioTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		59A8021923C7E17A007FECA9 /* PortfolioTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTests.swift; sourceTree = "<group>"; };
 		59A8021B23C7E17A007FECA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		59A8022123C7E240007FECA9 /* LibraryControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryControllerTests.swift; sourceTree = "<group>"; };
 		59DAFFBE23C69B340031C078 /* AppTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTableViewCell.swift; sourceTree = "<group>"; };
 		59F49D4523C3B43600ED5997 /* Portfolio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Portfolio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		59F49D4823C3B43600ED5997 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -116,7 +116,7 @@
 		59A8021823C7E17A007FECA9 /* PortfolioTests */ = {
 			isa = PBXGroup;
 			children = (
-				59A8021923C7E17A007FECA9 /* PortfolioTests.swift */,
+				59A8022123C7E240007FECA9 /* LibraryControllerTests.swift */,
 				59A8021B23C7E17A007FECA9 /* Info.plist */,
 			);
 			path = PortfolioTests;
@@ -243,6 +243,7 @@
 				TargetAttributes = {
 					59A8021623C7E17A007FECA9 = {
 						CreatedOnToolsVersion = 11.3;
+						LastSwiftMigration = 1130;
 						TestTargetID = 59F49D4423C3B43600ED5997;
 					};
 					59F49D4423C3B43600ED5997 = {
@@ -317,7 +318,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				59A8021A23C7E17A007FECA9 /* PortfolioTests.swift in Sources */,
+				59A8022223C7E240007FECA9 /* LibraryControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +382,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A4525544Q4;
 				INFOPLIST_FILE = PortfolioTests/Info.plist;
@@ -391,6 +393,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = vs.isv.PortfolioTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Portfolio.app/Portfolio";
@@ -401,6 +404,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = A4525544Q4;
 				INFOPLIST_FILE = PortfolioTests/Info.plist;
