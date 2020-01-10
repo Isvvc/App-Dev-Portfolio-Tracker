@@ -91,6 +91,36 @@ class AppControllerTests: XCTestCase {
 
         appController.delete(app: app, context: context)
     }
+    
+    func testDeleteScreenshot() {
+        let appController = AppController()
+        let context = CoreDataStack.shared.mainContext
+
+        let name = "TEST CREATE APP"
+        let description = "TEST APP DESCRIPTION"
+        let bundleID = "test.app.screenshot"
+        appController.create(appNamed: name, description: description, bundleID: bundleID, context: context)
+
+        let fetchRequest: NSFetchRequest<App> = App.fetchRequest()
+        let apps = try! context.fetch(fetchRequest)
+
+        let app = apps.first(where: { $0.id == bundleID })!
+        //swiftlint:disable line_length
+        let url = URL(string: "https://is2-ssl.mzstatic.com/image/thumb/Purple113/v4/da/de/9f/dade9ff5-bfa3-c8d1-5828-635c03058b73/source/512x512bb.jpg")!
+        //swiftlint:enable line_length
+        let imageData = try! Data(contentsOf: url)
+        let image = UIImage(data: imageData)!
+
+        appController.add(screenshot: image, toApp: app, context: context)
+        let screenshot = app.screeenshots?.array.first as! Screenshot
+        XCTAssertNotNil(screenshot)
+
+        appController.delete(screenshot: screenshot, context: context)
+        let deleted = app.screeenshots?.array.first as? Screenshot
+        XCTAssertNil(deleted)
+
+        appController.delete(app: app, context: context)
+    }
 
     func testFetchArtwork() {
         let appController = AppController()
