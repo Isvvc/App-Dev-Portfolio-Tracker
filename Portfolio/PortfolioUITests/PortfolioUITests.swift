@@ -42,7 +42,14 @@ class PortfolioUITests: XCTestCase {
     }
 
     func testEditApp() {
-
+        app.staticTexts["Nextcloud"].tap()
+        usleep(100)
+        app.navigationBars.buttons["Edit"].tap()
+        app.textViews.firstMatch.tap()
+        app.typeText("Test Edit ")
+        app.navigationBars.buttons["Save"].tap()
+        app.navigationBars.buttons["Apps"].tap()
+        app.staticTexts["Test Edit Nextcloud"].tap()
     }
 
     func testCreateApp() {
