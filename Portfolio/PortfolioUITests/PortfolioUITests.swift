@@ -66,7 +66,12 @@ class PortfolioUITests: XCTestCase {
     }
 
     func testDeleteApp() {
-
+        let cellCount = app.tables.cells.count
+        app.staticTexts["Test App"].swipeLeft()
+        app.buttons["Delete"].tap()
+        app.alerts.firstMatch.buttons["Delete"].tap()
+        let newCellCount = app.tables.cells.count
+        XCTAssertNotEqual(cellCount, newCellCount)
     }
 
 }
