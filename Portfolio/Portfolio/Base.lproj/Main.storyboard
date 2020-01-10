@@ -281,16 +281,16 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TextViewCell" id="zDO-pA-k6U" customClass="TextViewTableViewCell" customModule="Portfolio" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="279" width="414" height="150.5"/>
+                                <rect key="frame" x="0.0" y="279" width="414" height="54.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zDO-pA-k6U" id="sf2-gn-anu">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="150.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="54.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bN3-9z-p1Z">
-                                            <rect key="frame" x="20" y="11" width="374" height="128.5"/>
+                                            <rect key="frame" x="20" y="11" width="374" height="32.5"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="128" id="fiK-QB-JJf"/>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32" id="fiK-QB-JJf"/>
                                             </constraints>
                                             <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                             <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -310,7 +310,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="LibraryCell" textLabel="xSd-Bn-rm5" imageView="cq4-kl-6Og" style="IBUITableViewCellStyleDefault" id="y7E-OX-IAA">
-                                <rect key="frame" x="0.0" y="429.5" width="414" height="43.5"/>
+                                <rect key="frame" x="0.0" y="333.5" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="y7E-OX-IAA" id="HNe-Yy-qLP">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -331,7 +331,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SelectLibraryCell" textLabel="6lM-Oa-7Xp" style="IBUITableViewCellStyleDefault" id="wjA-uc-jqm">
-                                <rect key="frame" x="0.0" y="473" width="414" height="43.5"/>
+                                <rect key="frame" x="0.0" y="377" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wjA-uc-jqm" id="srg-CQ-MIl">
                                     <rect key="frame" x="0.0" y="0.0" width="383" height="43.5"/>

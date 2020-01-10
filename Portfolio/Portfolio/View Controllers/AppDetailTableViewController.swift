@@ -272,7 +272,7 @@ class AppDetailTableViewController: UITableViewController {
         if app.userRatingCount > 0 {
             ratingsButton?.setTitle("\(app.userRatingCount) Ratings", for: .disabled)
         } else {
-            ratingsButton?.setTitle(nil, for: .disabled)
+            ratingsButton?.setTitle("", for: .disabled)
         }
 
         nameTextView?.text = app.name

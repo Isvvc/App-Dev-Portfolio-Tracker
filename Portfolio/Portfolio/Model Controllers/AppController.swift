@@ -54,7 +54,7 @@ class AppController {
                                                 artworkURL: artworkURL,
                                                 ageRating: ageRating,
                                                 description: description,
-                                                appStoreURL: appStoreURL,
+                                                appStore: appStoreURL,
                                                 userRatingCount: userRatingCount,
                                                 screenshots: screenshots)
 
