@@ -163,6 +163,9 @@ class AppController {
             deleteImage(forKey: bundleID)
             deleteImage(forKey: bundleID, movie: true)
         }
+        for screenshot in app.screeenshots?.array.compactMap({ $0 as? Screenshot }) ?? [] {
+            delete(screenshot: screenshot, context: context)
+        }
         context.delete(app)
         CoreDataStack.shared.save(context: context)
     }
