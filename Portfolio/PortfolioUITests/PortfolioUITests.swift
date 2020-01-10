@@ -10,8 +10,29 @@ import XCTest
 
 class PortfolioUITests: XCTestCase {
 
-    func testSearch() {
+    private var app: XCUIApplication {
+        return XCUIApplication()
+    }
 
+    override func setUp() {
+        continueAfterFailure = false
+
+        XCUIApplication().launch()
+    }
+
+    func testSearch() {
+        app.buttons.firstMatch.tap()
+
+        app.sheets.firstMatch.buttons["Search"].tap()
+        sleep(1)
+
+        app.searchFields.firstMatch.tap()
+        app.typeText("Nextcloud\n")
+        sleep(2)
+
+        app.staticTexts["Nextcloud"].tap()
+        app.navigationBars.buttons["Add App"].tap()
+        app.staticTexts["Nextcloud"].tap()
     }
 
     func testAppDetails() {
@@ -26,7 +47,7 @@ class PortfolioUITests: XCTestCase {
 
     }
 
-    func testLibraries() {
+    func testDeleteApp() {
 
     }
 
