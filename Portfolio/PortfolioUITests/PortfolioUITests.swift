@@ -10,4 +10,24 @@ import XCTest
 
 class PortfolioUITests: XCTestCase {
 
+    func testSearch() {
+
+    }
+
+    func testAppDetails() {
+
+    }
+
+    func testEditApp() {
+
+    }
+
+    func testCreateApp() {
+
+    }
+
+    func testLibraries() {
+
+    }
+
 }

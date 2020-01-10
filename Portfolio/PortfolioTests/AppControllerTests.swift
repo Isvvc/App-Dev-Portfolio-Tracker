@@ -91,7 +91,7 @@ class AppControllerTests: XCTestCase {
 
         appController.delete(app: app, context: context)
     }
-    
+
     func testDeleteScreenshot() {
         let appController = AppController()
         let context = CoreDataStack.shared.mainContext
