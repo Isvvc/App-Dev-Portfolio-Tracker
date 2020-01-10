@@ -132,8 +132,8 @@ class AppControllerTests: XCTestCase {
             //swiftlint:enable line_length
             ageRating: nil,
             description: "TEST APP DESCRIPTION",
-            appStoreURL: nil,
-            userRatingCount: nil,
+            appStore: nil,
+            userRatingCount: 0,
             screenshots: nil)
         XCTAssertNil(appRepresentation.artwork)
 

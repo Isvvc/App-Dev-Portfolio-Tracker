@@ -41,7 +41,7 @@ extension App {
         self.artworkURL = representation.artworkURL
         self.appStoreURL = representation.appStoreURL
         self.name = representation.name
-        self.userRatingCount = representation.userRatingCount ?? 0
+        self.userRatingCount = representation.userRatingCount
     }
 }
 
