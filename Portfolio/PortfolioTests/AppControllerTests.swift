@@ -119,4 +119,22 @@ class AppControllerTests: XCTestCase {
         appController.deleteImage(forKey: key)
     }
 
+    func testDeleteImage() {
+        let appController = AppController()
+
+        //swiftlint:disable line_length
+        let imageData = try! Data(contentsOf: URL(string: "https://is2-ssl.mzstatic.com/image/thumb/Purple113/v4/da/de/9f/dade9ff5-bfa3-c8d1-5828-635c03058b73/source/512x512bb.jpg")!)
+        //swiftlint:enable line_length
+        let image = UIImage(data: imageData)
+
+        let key = "test.app.store"
+        appController.store(image!, forKey: key)
+        let retrievedImage = appController.retrieveImage(forKey: key)
+
+        XCTAssertNotNil(retrievedImage)
+        appController.deleteImage(forKey: key)
+        let retrievedImageAgain = appController.retrieveImage(forKey: key)
+        XCTAssertNil(retrievedImageAgain)
+    }
+
 }
