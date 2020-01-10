@@ -53,7 +53,16 @@ class PortfolioUITests: XCTestCase {
     }
 
     func testCreateApp() {
-
+        app.buttons.firstMatch.tap()
+        app.sheets.firstMatch.buttons["Create New"].tap()
+        app.textFields.firstMatch.typeText("test.app.ui")
+        app.alerts.firstMatch.buttons["Done"].tap()
+        app.textViews["App Name"].tap()
+        app.typeText("Test App")
+        app.textViews["App Description"].tap()
+        app.typeText("Test App Description")
+        app.navigationBars.buttons["Save"].tap()
+        app.staticTexts["Test App"].tap()
     }
 
     func testDeleteApp() {
