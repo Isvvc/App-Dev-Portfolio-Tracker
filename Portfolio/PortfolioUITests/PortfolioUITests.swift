@@ -36,7 +36,9 @@ class PortfolioUITests: XCTestCase {
     }
 
     func testAppDetails() {
-
+        app.staticTexts["Nextcloud"].tap()
+        usleep(100)
+        XCTAssertEqual(app.navigationBars.staticTexts.firstMatch.label, "Nextcloud")
     }
 
     func testEditApp() {
